@@ -6,9 +6,11 @@
         <Nav></Nav>
       </div>
       <div class="flex-1 bg-neutral-600">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </div>
     </div>
   </div>
