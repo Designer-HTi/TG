@@ -45,13 +45,13 @@ const router = createRouter({
 
 // 配置钩子
 router.beforeEach((to, from, next) => {
-  console.log(to, from)
+  // console.log(to, from)
   // ...
   next()
 })
 
 router.afterEach((to, from) => {
-  console.log(to, from)
+  // console.log(to, from)
   // window.scrollTo(0, 0);
 })
 
