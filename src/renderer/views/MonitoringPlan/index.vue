@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="flex w-full">
+    <DetailListVue />
     <DetailListVue />
   </div>
 </template>

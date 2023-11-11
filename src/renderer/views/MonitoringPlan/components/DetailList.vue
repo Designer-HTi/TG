@@ -1,26 +1,61 @@
 <template>
-  <div>
-    <div class="flex justify-between">
-      <p>占位文本</p>
-      <p>看板一</p>
-      <el-button>
-        <i class="incon font_family icon-guolv"></i>
-        过滤
-      </el-button>
+  <div class="content">
+    <div class="head">看板一</div>
+    <div class="list">
+      <div class="card">
+        <el-descriptions class="w-full" :column="1" :size="size" :style="blockMargin">
+          <el-descriptions-item label="Username">
+            <!-- <template #label>
+                <div class="cell-item">
+                  <el-icon :style="iconStyle">
+                    <user />
+                  </el-icon>
+                  Username
+                </div> </template -->
+            >kooriookami</el-descriptions-item
+          >
+          <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
+          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
+          <el-descriptions-item label="Remarks">
+            <el-tag size="small">School</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="Address"
+            >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
     </div>
-    <ul style="overflow: auto">
-      <li class="infinite-list-item">
-        <el-form-item label="命中词" label-width="60"> 命中词 </el-form-item>
-        <el-form-item label="群名" label-width="60"> 群名 </el-form-item>
-        <el-form-item label="名称ID" label-width="60"> 名称ID </el-form-item>
-        <hr />
-        <p>言论</p>
-        <div>言论</div>
-      </li>
-    </ul>
   </div>
 </template>
 
 <script setup lang="ts"></script>
 
-<style scoped></style>
+<style scoped lang="less">
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px 0;
+  justify-content: flex-start;
+
+  &:hover {
+    background-color: @nav-hover;
+  }
+  .head {
+    width: 100%;
+    padding: 16px 48px;
+    text-align: center;
+    font-size: 20px;
+  }
+  .list {
+    flex: 1;
+    padding: 0 48px;
+
+    .card {
+      display: flex;
+      padding: 16px;
+      gap: 10px;
+    }
+  }
+}
+</style>
