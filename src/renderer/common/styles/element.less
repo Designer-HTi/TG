@@ -1,4 +1,47 @@
 // element变量
+@import './global.less';
+
 :root {
-  --el-color-primary: #409eff;
+  --el-color-primary: @primary !important;
+  --el-text-color-primary:@title-text !important;
+  --el-text-color-regular:@Secondary-text !important;
+
+}
+
+.el-dialog{
+  --el-bg-color:rgba(39, 40, 43, 0.90)!important;
+  border-radius: 8px !important;
+box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.20) !important;
+backdrop-filter: blur(10px) !important;
+.el-dialog__header{
+  border-bottom: 1px solid @border-hr;
+  margin-right: 0;
+  padding: 13px 24px;
+
+  .el-dialog__headerbtn{
+    top: 0;
+  }
+}
+.el-dialog__footer{
+  border-top: 1px solid @border-hr;
+  padding: 10px 24px;
+}
+}
+
+.el-input{
+  --el-fill-color-blank:@bg-color-1 !important;
+  --el-border-color:@border-hr !important;
+  --el-input-text-color: #4EA7FC !important;
+}
+
+.el-descriptions{
+
+}
+
+.el-descriptions__body{
+  --el-fill-color-blank:@bg-color-2 !important;
+  padding: 16px;
+  gap: 10px;
+  border-radius: 8px;
+  border: 0.5px solid  @border-hr;
 }
