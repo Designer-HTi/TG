@@ -5,12 +5,13 @@
       <div class="box-1 box">
         <p>工作台</p>
         <div class="navitem" @click="handleMenu('/')">新增监测方案</div>
+        <div class="navitem" @click="handleMenu('/MonitoringPlan')">监测方案一</div>
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
-        <div class="navitem" @click="handleMenu('About')">TG配置</div>
+        <div class="navitem" @click="handleMenu('/TgConfiguration')">TG配置</div>
         <p>数据库</p>
-        <div class="navitem" @click="handleMenu('Not')">数据中心</div>
+        <div class="navitem" @click="handleMenu('/Not')">数据中心</div>
       </div>
     </div>
   </div>

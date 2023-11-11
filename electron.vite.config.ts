@@ -31,6 +31,7 @@ export default defineConfig({
         imports: [
           'vue',
           'vue-router',
+          '@vueuse/core',
           {
             from: 'vue-router',
             imports: ['RouteLocationRaw'],

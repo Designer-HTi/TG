@@ -1,6 +1,6 @@
 <template>
   <div>About</div>
-  <el-button link class="icon font_family icon-add" type="danger"></el-button>
+  <el-button link class="icon font_family icon-add" type="primary"></el-button>
   <div @click="close">close</div>
 </template>
 

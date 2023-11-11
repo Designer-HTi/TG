@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-row w-full h-full">
     <Nav></Nav>
-    <div class="flex-1 flex-col w-full h-full">
+    <div class="flex flex-1 flex-col w-full h-full">
       <div class="w-full h-64px"></div>
-      <div class="flex-1 c-black">
+      <div class="flex-1 c-black grow">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" />

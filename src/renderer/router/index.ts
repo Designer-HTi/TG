@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     children: []
   },
   {
-    path: '/about',
+    path: '/About',
     name: 'About',
     component: () => import('@/views/About/index.vue'),
     children: []
@@ -21,6 +21,24 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/NotFound/index.vue'),
     meta: {
       title: '404',
+      auth: false
+    }
+  },
+  {
+    path: '/MonitoringPlan',
+    name: 'MonitoringPlan',
+    component: () => import('@/views/MonitoringPlan/index.vue'),
+    meta: {
+      title: 'MonitoringPlan',
+      auth: false
+    }
+  },
+  {
+    path: '/TgConfiguration',
+    name: 'TgConfiguration',
+    component: () => import('@/views/TgConfiguration/index.vue'),
+    meta: {
+      title: 'TgConfiguration',
       auth: false
     }
   },
