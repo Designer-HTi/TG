@@ -3,7 +3,7 @@
     <div class="head">看板一</div>
     <div class="list">
       <div class="card">
-        <el-descriptions class="w-full" :column="1" :size="size" :style="blockMargin">
+        <el-descriptions class="w-full" :column="1">
           <el-descriptions-item label="Username">
             <!-- <template #label>
                 <div class="cell-item">

@@ -41,6 +41,7 @@ export default defineConfig({
       }),
       Unocss({
         /* options */
+        configFile: './uno.config.ts'
       })
     ],
     css: {

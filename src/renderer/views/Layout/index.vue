@@ -3,7 +3,7 @@
     <Nav></Nav>
     <div class="flex flex-1 flex-col w-full h-full">
       <Header></Header>
-      <div class="flex flex-1 h-full grow">
+      <div class="grow overflow-hidden">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" />

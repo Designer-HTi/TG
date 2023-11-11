@@ -16,8 +16,10 @@
       />
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogVisible = false"> Confirm </el-button>
+          <el-button @click="closeDialog(item, index, false, 'cancel')">Cancel</el-button>
+          <el-button type="primary" @click="closeDialog(item, index, false, 'confirm')">
+            Confirm
+          </el-button>
         </span>
       </template>
     </el-dialog>
@@ -28,6 +30,4 @@
 import { dialogList, closeDialog, addDialog, ADD_DIALOG } from './index'
 
 provide(ADD_DIALOG, addDialog)
-
-const dialogVisible = ref(false)
 </script>

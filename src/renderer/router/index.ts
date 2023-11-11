@@ -5,14 +5,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
+    name: 'MonitoringPlan',
     component: () => import('@/views/Home/index.vue'),
-    children: []
-  },
-  {
-    path: '/About',
-    name: 'About',
-    component: () => import('@/views/About/index.vue'),
     children: []
   },
   {
@@ -23,6 +17,10 @@ const routes: Array<RouteRecordRaw> = [
       title: '404',
       auth: false
     }
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: '/404'
   },
   {
     path: '/MonitoringPlan',
@@ -41,10 +39,6 @@ const routes: Array<RouteRecordRaw> = [
       title: 'TgConfiguration',
       auth: false
     }
-  },
-  {
-    path: '/:pathMatch(.*)',
-    redirect: '/404'
   }
 ]
 
@@ -53,24 +47,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from) {
-    console.log(to, from)
     return {
       left: 0,
       top: 0
     }
   }
-})
-
-// 配置钩子
-router.beforeEach((to, from, next) => {
-  // console.log(to, from)
-  // ...
-  next()
-})
-
-router.afterEach((to, from) => {
-  // console.log(to, from)
-  // window.scrollTo(0, 0);
 })
 
 // 导出路由
