@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
@@ -38,6 +39,9 @@ export default defineConfig({
             type: true
           }
         ]
+      }),
+      Components({
+        dirs: ['src/renderer/components']
       }),
       Unocss({
         /* options */

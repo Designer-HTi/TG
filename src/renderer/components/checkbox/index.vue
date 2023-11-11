@@ -1,5 +1,5 @@
 <template>
-  <el-checkbox v-model="modelValues" v-bind="properties" size="large"></el-checkbox>
+  <el-checkbox v-model="modelValues" v-bind="properties" class="w-full" size="large"></el-checkbox>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +24,7 @@ watch(modelValues, (v) => {
 <style scoped lang="less">
 .el-checkbox {
   border-bottom: 0.5px solid @border-hr;
-  width: 212px;
+  // width: 212px;
   height: 44px;
   padding-left: 8px;
   padding-right: 8px;

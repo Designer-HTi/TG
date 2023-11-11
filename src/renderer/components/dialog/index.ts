@@ -9,6 +9,9 @@ type DialogOptions = {
   props?: object
   width: string
   visible?: boolean
+  showfooter?: boolean
+  cancelName?: string
+  confirmName?: string
   callBack?: (...args) => void
 }
 export const dialogList = reactive<DialogOptions[]>([])

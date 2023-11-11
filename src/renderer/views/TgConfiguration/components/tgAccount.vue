@@ -1,14 +1,17 @@
 <template>
   <div class="h-full flex flex-col gap-10px">
-    <TgButton class="w-full" icon-name="add">{{ btnName }}</TgButton>
+    <TgButton class="w-full" icon-name="add" @handle-btn="emit('handleBtn')">{{
+      btnName
+    }}</TgButton>
     <div class="grow h-0 overflow-y-auto">
       <Checkbox
         v-model:modelValue="checkAll"
         :indeterminate="isIndeterminate"
         label="全部"
+        class="w-full"
         @change="handleCheckAllChange"
       />
-      <el-checkbox-group v-model="checkList">
+      <el-checkbox-group v-model="checkList" class="w-full">
         <Checkbox class="w-full" label="111" />
         <Checkbox class="w-full" label="111" />
         <Checkbox class="w-full" label="111" />
@@ -33,6 +36,10 @@ import TgButton from '@/components/tgButton/index.vue'
 
 defineProps<{
   btnName: string
+}>()
+
+const emit = defineEmits<{
+  handleBtn: []
 }>()
 
 const checkAll = ref(false)

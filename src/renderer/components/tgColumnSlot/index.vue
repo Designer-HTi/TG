@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import TgButton from '@/components/tgButton/index.vue'
+
 withDefaults(
   defineProps<{
     title?: string

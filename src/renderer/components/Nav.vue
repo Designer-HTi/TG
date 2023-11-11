@@ -23,9 +23,6 @@
         >
           监测方案三
         </router-link>
-        <!-- <div class="navitem icon font_family icon-add" @click="handleMenu('/MonitoringPlan')">
-          监测方案一
-        </div> -->
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
@@ -50,6 +47,7 @@ const show = () => {
   addDialog({
     title: '新增监测方案',
     width: '500px',
+    showfooter: true,
     component: shallowRef(AddPlan),
     props: {
       type: 1
