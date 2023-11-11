@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "38061036",
+      "name": "radio3",
+      "font_class": "radio3",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "38061034",
+      "name": "radio1",
+      "font_class": "radio1",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "38061035",
+      "name": "radio2",
+      "font_class": "radio2",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
       "icon_id": "38044574",
       "name": "add",
       "font_class": "add",

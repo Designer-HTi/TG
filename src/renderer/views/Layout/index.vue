@@ -2,8 +2,8 @@
   <div class="flex flex-row w-full h-full">
     <Nav></Nav>
     <div class="flex flex-1 flex-col w-full h-full">
-      <div class="w-full h-64px"></div>
-      <div class="flex-1 c-black grow">
+      <Header></Header>
+      <div class="flex flex-1 h-full grow">
         <router-view v-slot="{ Component }">
           <keep-alive>
             <component :is="Component" />
@@ -16,6 +16,7 @@
 
 <script setup lang="ts">
 import Nav from '@/components/Nav.vue'
+import Header from '@/components/Header.vue'
 </script>
 
 <style scoped lang="less"></style>
