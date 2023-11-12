@@ -1,5 +1,6 @@
-import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
+import { SET_WINDOW_SIZE } from '../main/constants'
 
 // Custom APIs for renderer
 const api = {}
@@ -11,6 +12,9 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('electronApi', {
+      setWindowSize: (type: string) => ipcRenderer.send(SET_WINDOW_SIZE, type)
+    })
   } catch (error) {
     // console.error(error)
   }

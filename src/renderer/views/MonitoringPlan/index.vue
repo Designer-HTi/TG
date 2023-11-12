@@ -16,10 +16,16 @@ import AddPlan from './components/AddPlan.vue'
 const route = useRoute()
 
 const planCount = ref(0)
-watch(route, (v) => {
-  if (v.path !== '/MonitoringPlan') return
-  planCount.value = Number(v.query.planCount as string)
-})
+watch(
+  route,
+  (v) => {
+    if (v.path !== '/MonitoringPlan') return
+    planCount.value = Number(v.query.planCount as string)
+  },
+  {
+    immediate: true
+  }
+)
 
 const addDialog = inject(ADD_DIALOG)
 

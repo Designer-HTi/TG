@@ -30,7 +30,9 @@
           TG配置
         </router-link>
         <p>数据库</p>
-        <router-link class="navitem icon font_family icon-add" to="Not">数据中心</router-link>
+        <router-link class="navitem icon font_family icon-add" to="DataCenter"
+          >数据中心</router-link
+        >
       </div>
     </div>
   </div>

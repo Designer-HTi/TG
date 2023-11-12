@@ -9,15 +9,19 @@
     <div class="right">
       <div class="time">周三 16:20:32</div>
       <div class="window">
-        <div class="icon font_family icon-Subtract"></div>
-        <div class="icon font_family icon-Maximize"></div>
-        <div class="icon font_family icon-Dismiss"></div>
+        <div class="icon font_family icon-Subtract" @click="setWindowSize('min')"></div>
+        <div class="icon font_family icon-Maximize" @click="setWindowSize('max')"></div>
+        <div class="icon font_family icon-Dismiss" @click="setWindowSize('close')"></div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const setWindowSize = (type: string) => {
+  window.electronApi.setWindowSize(type)
+}
+</script>
 
 <style scoped lang="less">
 .header {

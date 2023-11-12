@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export default defineConfig({
   main: {
@@ -22,6 +23,7 @@ export default defineConfig({
     },
     plugins: [
       vue(),
+      vueJsx(),
       AutoImport({
         dts: 'auto-import.d.ts',
         include: [

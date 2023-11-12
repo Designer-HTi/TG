@@ -39,6 +39,15 @@ const routes: Array<RouteRecordRaw> = [
       title: 'TgConfiguration',
       auth: false
     }
+  },
+  {
+    path: '/DataCenter',
+    name: 'DataCenter',
+    component: () => import('@/views/DataCenter/index.vue'),
+    meta: {
+      title: 'DataCenter',
+      auth: false
+    }
   }
 ]
 
