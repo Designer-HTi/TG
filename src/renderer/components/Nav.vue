@@ -10,9 +10,7 @@
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
-        <div class="navitem icon font_family icon-telegram" @click="handleMenu('About')">
-          TG配置
-        </div>
+        <div class="navitem icon font_family icon-telegram" @click="handleMenu('Tg')">TG配置</div>
         <p>数据库</p>
         <div class="navitem icon font_family icon-setting" @click="handleMenu('Not')">数据中心</div>
       </div>

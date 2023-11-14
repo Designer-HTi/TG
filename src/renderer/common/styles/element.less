@@ -117,17 +117,18 @@ backdrop-filter: blur(10px) !important;
     border: 1px solid @button-stroke !important;
 
   }
+}
+.el-checkbox.is-bordered{
+  padding:20px 16px;
+  border-radius: 0;
+  margin-top: -1px;
+  border-color: @border-hr;
+  border-left: none;
+  border-right: none;
+}
 
-  .el-checkbox.is-bordered{
-    padding: 16px;
-    border-radius: 0;
-    margin-top: -1px;
-    border-left: none;
-    border-right: none;
-  }
-
-  .el-checkbox.is-bordered.is-checked{
-    z-index: 200;
-    background-color: rgba(78, 167, 252, 0.10);
-  }
+.el-checkbox.is-bordered.is-checked{
+  z-index: 200;
+  border-color:@primary;
+  background-color: rgba(78, 167, 252, 0.10);
 }
