@@ -1,6 +1,6 @@
 <template>
   <div class="siderbar">
-    <div class="logo">woshilogo</div>
+    <div class="logo"><img src="../assets/img/Logo.png" alt="" /></div>
     <div class="navbox">
       <div class="box-1 box">
         <p>工作台</p>
@@ -26,9 +26,7 @@
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
-        <router-link class="navitem icon font_family icon-add" to="TgConfiguration">
-          TG配置
-        </router-link>
+        <div class="navitem icon font_family icon-telegram" @click="handleMenu('Tg')">TG配置</div>
         <p>数据库</p>
         <router-link class="navitem icon font_family icon-add" to="Not">数据中心</router-link>
       </div>
@@ -67,9 +65,11 @@ const show = () => {
   min-width: 240px;
   border-right: 1px solid @border-hr;
   .logo {
-    width: 100%;
     height: 64px;
-    text-align: center;
+
+    img {
+      padding: 16px;
+    }
   }
   .navbox {
     flex: 1;

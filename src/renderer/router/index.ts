@@ -10,6 +10,12 @@ const routes: Array<RouteRecordRaw> = [
     children: []
   },
   {
+    path: '/tg',
+    name: 'tg',
+    component: () => import('@/views/Tg/index.vue'),
+    children: []
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFound/index.vue'),
