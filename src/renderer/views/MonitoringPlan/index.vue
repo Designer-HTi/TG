@@ -46,14 +46,12 @@ const show = () => {
 
 <style scoped lang="less">
 .content {
-  display: flex;
   flex-direction: column;
   align-items: center;
 
   .img {
     width: 800px;
     height: 600px;
-
     background: url(../../assets/img/kong.png) no-repeat center;
   }
 

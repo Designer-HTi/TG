@@ -30,7 +30,7 @@ const setWindowSize = (type: string) => {
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  border: 1px solid @border-hr;
+  border-bottom: 1px solid @border-hr;
 
   .left {
     display: flex;
