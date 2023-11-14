@@ -1,6 +1,6 @@
 <template>
   <div class="siderbar">
-    <div class="logo">woshilogo</div>
+    <div class="logo"><img src="../assets/img/Logo.png" alt="" /></div>
     <div class="navbox">
       <div class="box-1 box">
         <p>工作台</p>
@@ -59,9 +59,11 @@ const show = () => {
   min-width: 240px;
   border-right: 1px solid @border-hr;
   .logo {
-    width: 100%;
     height: 64px;
-    text-align: center;
+
+    img {
+      padding: 16px;
+    }
   }
   .navbox {
     flex: 1;
