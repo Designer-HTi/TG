@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row w-full h-full">
     <Nav></Nav>
-    <div class="flex-1 flex-col w-full h-full">
+    <div class="flex flex-1 flex-col w-full h-full">
       <Header></Header>
       <router-view v-slot="{ Component }" class="layout">
         <keep-alive>

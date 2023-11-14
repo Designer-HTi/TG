@@ -1,5 +1,8 @@
 <template>
-  <div class="content">
+  <div v-if="planCount !== 0" :key="planCount" class="flex">
+    <DetailListVue v-for="i in planCount" :key="i" />
+  </div>
+  <div v-else class="content">
     <div class="img"></div>
     <div>暂无无监测方案，<a @click="show"> 请点我添加</a>监测方案</div>
   </div>
@@ -7,16 +10,24 @@
 
 <script setup lang="ts">
 import { ADD_DIALOG } from '@/components/dialog'
-import About from '../About/index.vue'
+import DetailListVue from './components/DetailList.vue'
+import AddPlan from './components/AddPlan.vue'
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const addDialog = inject(ADD_DIALOG)!
+const route = useRoute()
+
+const planCount = ref(0)
+watch(route, (v) => {
+  if (v.path !== '/MonitoringPlan') return
+  planCount.value = Number(v.query.planCount as string)
+})
+
+const addDialog = inject(ADD_DIALOG)
 
 const show = () => {
-  addDialog({
-    title: 'title',
+  addDialog?.({
+    title: '新增监测方案',
     width: '500px',
-    component: shallowRef(About),
+    component: shallowRef(AddPlan),
     props: {
       type: 1
     },

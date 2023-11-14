@@ -1,5 +1,5 @@
 const enum NAMES {
-  user = 'USER'
+  MONITORING_DATA = 'MonitoringData'
 }
 
 export default NAMES

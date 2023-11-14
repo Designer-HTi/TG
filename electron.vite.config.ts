@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
 
 export default defineConfig({
@@ -31,6 +32,7 @@ export default defineConfig({
         imports: [
           'vue',
           'vue-router',
+          '@vueuse/core',
           {
             from: 'vue-router',
             imports: ['RouteLocationRaw'],
@@ -38,8 +40,12 @@ export default defineConfig({
           }
         ]
       }),
+      Components({
+        dirs: ['src/renderer/components']
+      }),
       Unocss({
         /* options */
+        configFile: './uno.config.ts'
       })
     ],
     css: {

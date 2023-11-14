@@ -13,11 +13,17 @@
         :is="item.component"
         v-bind="item.props"
         @close="(args) => closeDialog(item, index, false, args)"
-      />
-      <template #footer>
+      >
+        <slot></slot>
+      </component>
+      <template v-if="item.showfooter" #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogVisible = false"> Confirm </el-button>
+          <el-button @click="item.callBack?.('cancel')">
+            {{ item.cancelName || '取消' }}
+          </el-button>
+          <el-button type="primary" @click="item.callBack?.('confirm')">
+            {{ item.confirmName || '确认' }}
+          </el-button>
         </span>
       </template>
     </el-dialog>
@@ -28,6 +34,4 @@
 import { dialogList, closeDialog, addDialog, ADD_DIALOG } from './index'
 
 provide(ADD_DIALOG, addDialog)
-
-const dialogVisible = ref(false)
 </script>

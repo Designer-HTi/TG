@@ -5,20 +5,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: () => import('@/views/Home/index.vue'),
-    children: []
-  },
-  {
-    path: '/data',
-    name: 'data',
-    component: () => import('@/views/Home/indexdata.vue'),
-    children: []
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('@/views/About/index.vue'),
+    name: 'MonitoringPlan',
+    component: () => import('@/views/MonitoringPlan/index.vue'),
     children: []
   },
   {
@@ -39,6 +27,24 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)',
     redirect: '/404'
+  },
+  {
+    path: '/MonitoringPlan',
+    name: 'MonitoringPlan',
+    component: () => import('@/views/MonitoringPlan/index.vue'),
+    meta: {
+      title: 'MonitoringPlan',
+      auth: false
+    }
+  },
+  {
+    path: '/TgConfiguration',
+    name: 'TgConfiguration',
+    component: () => import('@/views/TgConfiguration/index.vue'),
+    meta: {
+      title: 'TgConfiguration',
+      auth: false
+    }
   }
 ]
 
@@ -47,24 +53,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from) {
-    console.log(to, from)
     return {
       left: 0,
       top: 0
     }
   }
-})
-
-// 配置钩子
-router.beforeEach((to, from, next) => {
-  // console.log(to, from)
-  // ...
-  next()
-})
-
-router.afterEach((to, from) => {
-  // console.log(to, from)
-  // window.scrollTo(0, 0);
 })
 
 // 导出路由

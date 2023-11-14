@@ -5,31 +5,38 @@
       <div class="box-1 box">
         <p>工作台</p>
         <div class="navitem icon font_family icon-add" @click="show">新增监测方案</div>
-        <div class="navitem icon font_family icon-add" @click="handleMenu('/')">空状态</div>
-        <div class="navitem icon font_family icon-add" @click="handleMenu('data')">监测方案一</div>
+        <router-link
+          class="navitem icon font_family icon-add"
+          :to="{ path: '/MonitoringPlan', query: { planCount: 1 } }"
+        >
+          监测方案一
+        </router-link>
+        <router-link
+          class="navitem icon font_family icon-add"
+          :to="{ path: '/MonitoringPlan', query: { planCount: 2 } }"
+        >
+          监测方案二
+        </router-link>
+        <router-link
+          class="navitem icon font_family icon-add"
+          :to="{ path: '/MonitoringPlan', query: { planCount: 3 } }"
+        >
+          监测方案三
+        </router-link>
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
         <div class="navitem icon font_family icon-telegram" @click="handleMenu('Tg')">TG配置</div>
         <p>数据库</p>
-        <div class="navitem icon font_family icon-setting" @click="handleMenu('Not')">数据中心</div>
+        <router-link class="navitem icon font_family icon-add" to="Not">数据中心</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { ADD_DIALOG } from '@/components/dialog'
-import About from '../views/About/index.vue'
-
-const router = useRouter()
-
-const handleMenu = (path: string) => {
-  router.push({
-    path
-  })
-}
+import AddPlan from '@/views/MonitoringPlan/components/AddPlan.vue'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const addDialog = inject(ADD_DIALOG)!
@@ -38,7 +45,8 @@ const show = () => {
   addDialog({
     title: '新增监测方案',
     width: '500px',
-    component: shallowRef(About),
+    showfooter: true,
+    component: shallowRef(AddPlan),
     props: {
       type: 1
     },
