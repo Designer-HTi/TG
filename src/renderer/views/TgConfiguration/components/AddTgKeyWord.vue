@@ -9,12 +9,14 @@
     </el-input>
 
     <div class="w-280px urlList flex flex-wrap gap-10px">
-      <p>1111111111</p>
-      <p>111111111111</p>
-      <p>111111</p>
-      <p>111111111111</p>
-      <p>111111</p>
-      <p>111111</p>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
+      <el-tag closable type="info"> 1111111111 </el-tag>
     </div>
   </div>
 
@@ -45,7 +47,7 @@ const handleBtn = () => {
   max-height: 150px;
   padding: 5px 0;
   overflow-y: auto;
-  p {
+  .el-tag {
     padding: 0 8px;
     height: 28px;
     line-height: 28px;
