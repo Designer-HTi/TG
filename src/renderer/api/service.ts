@@ -2,14 +2,15 @@ import axios, { InternalAxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
 const service = axios.create({
-  baseURL: '/',
+  baseURL: 'http://192.168.10.70:6060/',
   timeout: 15000
 })
 
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    config.headers['token'] = ''
+    // config.headers['token'] = ''
+    config.headers['Access-Control-Allow-Origin'] = '*'
     return config
   },
   (error) => {

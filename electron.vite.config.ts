@@ -66,9 +66,9 @@ export default defineConfig({
       port: 6060,
       open: false,
       proxy: {
-        '/api': {
+        '/user_subscribe_list': {
           autoRewrite: true,
-          target: 'http://127.0.0.1:9999',
+          target: 'http://192.168.10.70:7890',
           changeOrigin: true,
           ws: true
         }

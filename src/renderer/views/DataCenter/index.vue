@@ -112,7 +112,7 @@ const tableData = reactive({
       cellRenderer: () => (
         <>
           <ElButton link size="small" type="danger">
-            Delete
+            删除
           </ElButton>
         </>
       ),

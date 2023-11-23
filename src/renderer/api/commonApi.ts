@@ -3,7 +3,7 @@ import service from './service'
 
 export class CommonApi {
   public static async getTimestamp() {
-    const response = await service.get<void, ApiResponse<string>>('/api')
+    const response = await service.get<void, ApiResponse<string>>('/user')
     return response.result
   }
 }
