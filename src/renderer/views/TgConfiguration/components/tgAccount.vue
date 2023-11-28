@@ -11,44 +11,74 @@
         class="w-full"
         @change="handleCheckAllChange"
       />
-      <el-checkbox-group v-model="checkList" class="w-full">
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
-        <Checkbox class="w-full" label="111" />
+      <el-checkbox-group v-model="selectList" class="w-full">
+        <Checkbox
+          v-for="item in userList"
+          :key="item.chatId"
+          class="w-full"
+          :label="type === 'user' ? item.chatId : item.channelName"
+        />
       </el-checkbox-group>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { queryAllGroup, queryAllUser } from '@/apis'
+import { GroupRes } from '@/apis/types'
 import Checkbox from '@/components/checkbox/index.vue'
 import TgButton from '@/components/tgButton/index.vue'
 
-defineProps<{
+const props = defineProps<{
+  type: 'user' | 'group'
   btnName: string
+  selectList: string[]
+  chatId?: string[]
 }>()
 
 const emit = defineEmits<{
   handleBtn: []
+  'update:modelValue'
 }>()
+
+const selectList = useVModel(props, 'selectList', emit)
+
+onMounted(() => {
+  getAllUser()
+})
 
 const checkAll = ref(false)
 const isIndeterminate = ref(false)
-const checkList = ref<string[]>([])
+const userList = ref<GroupRes[]>([])
 
 const handleCheckAllChange = (v: boolean) => {
-  checkList.value = v ? ['111'] : []
+  selectList.value = v ? userList.value.map((v) => v.chatId) : []
 }
+
+const getAllUser = async () => {
+  switch (props.type) {
+    case 'user':
+      queryAllUser().then((res) => {
+        userList.value = res.data
+      })
+      break
+    case 'group':
+      if (props.chatId?.length === 0) return
+      queryAllGroup((props.chatId as string[])[(props.chatId as string[]).length - 1]).then(
+        (res) => {
+          userList.value = res.data
+        }
+      )
+      break
+
+    default:
+      break
+  }
+}
+
+defineExpose({
+  getAllUser
+})
 </script>
 
 <style scoped></style>

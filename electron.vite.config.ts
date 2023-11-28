@@ -5,6 +5,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
   main: {
@@ -40,10 +41,12 @@ export default defineConfig({
             imports: ['RouteLocationRaw'],
             type: true
           }
-        ]
+        ],
+        resolvers: [ElementPlusResolver()]
       }),
       Components({
-        dirs: ['src/renderer/components']
+        dirs: ['src/renderer/components'],
+        resolvers: [ElementPlusResolver()]
       }),
       Unocss({
         /* options */
@@ -60,19 +63,20 @@ export default defineConfig({
           javascriptEnabled: true
         }
       }
-    },
-    server: {
-      host: '0.0.0.0',
-      port: 6060,
-      open: false,
-      proxy: {
-        '/user_subscribe_list': {
-          autoRewrite: true,
-          target: 'http://192.168.10.70:7890',
-          changeOrigin: true,
-          ws: true
-        }
-      }
     }
+    // server: {
+    //   host: '0.0.0.0',
+    //   port: 6060,
+    //   open: false,
+    //   proxy: {
+    //     '/api/': {
+    //       autoRewrite: true,
+    //       target: 'http://172.208.105.151',
+    //       changeOrigin: true,
+    //       ws: true,
+    //       rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite
+    //     }
+    //   }
+    // }
   }
 })

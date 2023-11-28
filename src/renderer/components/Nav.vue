@@ -6,31 +6,24 @@
         <p>工作台</p>
         <div class="navitem icon font_family icon-add" @click="show">新增监测方案</div>
         <router-link
+          v-for="item in planList"
+          :key="item.id"
           class="navitem icon font_family icon-add"
-          :to="{ path: '/MonitoringPlan', query: { planCount: 1 } }"
+          :to="{ path: `/MonitoringPlan/${item.planType}` }"
         >
-          监测方案一
-        </router-link>
-        <router-link
-          class="navitem icon font_family icon-add"
-          :to="{ path: '/MonitoringPlan', query: { planCount: 2 } }"
-        >
-          监测方案二
-        </router-link>
-        <router-link
-          class="navitem icon font_family icon-add"
-          :to="{ path: '/MonitoringPlan', query: { planCount: 3 } }"
-        >
-          监测方案三
+          {{ item.planName }}
         </router-link>
       </div>
       <div class="box-2 box">
         <p>TG管理</p>
-        <router-link class="navitem icon font_family icon-telegram" to="TgConfiguration">
+        <router-link
+          class="navitem icon font_family icon-telegram"
+          :to="{ path: '/TgConfiguration' }"
+        >
           TG配置
         </router-link>
         <p>数据库</p>
-        <router-link class="navitem icon font_family icon-add" to="DataCenter">
+        <router-link class="navitem icon font_family icon-add" :to="{ path: '/DataCenter' }">
           数据中心
         </router-link>
       </div>
@@ -41,23 +34,37 @@
 <script setup lang="ts">
 import { ADD_DIALOG } from '@/components/dialog'
 import AddPlan from '@/views/MonitoringPlan/components/AddPlan.vue'
+import { queryAllPlan } from '@/apis'
+import { PlansRes } from '@/apis/types'
+import mitts from '@/utils/mitts'
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const addDialog = inject(ADD_DIALOG)!
+
+onMounted(() => {
+  mitts.on('updatePlanList', getPlan)
+})
 
 const show = () => {
   addDialog({
     title: '新增监测方案',
     width: '500px',
-    showfooter: true,
-    component: shallowRef(AddPlan),
-    props: {
-      type: 1
-    },
-    callBack: (v) => {
-      console.log(v)
-    }
+    component: shallowRef(AddPlan)
   })
+}
+
+onBeforeMount(() => {
+  getPlan()
+})
+
+const planList = ref<PlansRes[]>()
+const getPlan = async () => {
+  try {
+    const res = await queryAllPlan()
+    planList.value = res.data
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 

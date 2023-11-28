@@ -24,7 +24,9 @@
 </template>
 
 <script setup lang="ts">
+import { createChannel } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { ElMessage } from 'element-plus'
 
 const emit = defineEmits<{
   close: []
@@ -37,8 +39,16 @@ const chatId = ref('')
 const next = () => {
   active.value = active.value === 1 ? 2 : 1
 }
-const handleBtn = () => {
-  emit('close')
+const handleBtn = async () => {
+  try {
+    await createChannel({
+      chatId: chatId.value
+    })
+    ElMessage.success('新增成功')
+    emit('close')
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 

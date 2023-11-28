@@ -4,18 +4,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 // 配置routes
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'MonitoringPlan',
-    component: () => import('@/views/MonitoringPlan/index.vue'),
-    children: []
-  },
-  {
-    path: '/tg',
-    name: 'tg',
-    component: () => import('@/views/Tg/index.vue'),
-    children: []
-  },
-  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFound/index.vue'),
@@ -29,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/404'
   },
   {
-    path: '/MonitoringPlan',
+    path: '/MonitoringPlan/:planCount',
     name: 'MonitoringPlan',
     component: () => import('@/views/MonitoringPlan/index.vue'),
     meta: {

@@ -1,11 +1,11 @@
 import '@/assets/icon/iconfont/iconfont.css'
 import '@/common/styles/index.less'
+import 'element-plus/dist/index.css'
+import 'uno.css'
 import router from '@/router'
 import pinia from '@/store'
 import mitts from '@/utils/mitts'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import 'uno.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 

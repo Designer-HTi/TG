@@ -19,8 +19,8 @@ const planCount = ref(0)
 watch(
   route,
   (v) => {
-    if (v.path !== '/MonitoringPlan') return
-    planCount.value = Number(v.query.planCount as string)
+    if (!v.path.includes('/MonitoringPlan')) return
+    planCount.value = Number(v.params.planCount as string)
   },
   {
     immediate: true
@@ -33,13 +33,7 @@ const show = () => {
   addDialog?.({
     title: '新增监测方案',
     width: '500px',
-    component: shallowRef(AddPlan),
-    props: {
-      type: 1
-    },
-    callBack: (v) => {
-      console.log(v)
-    }
+    component: shallowRef(AddPlan)
   })
 }
 </script>

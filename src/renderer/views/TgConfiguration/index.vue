@@ -1,10 +1,22 @@
 <template>
   <div class="h-full flex">
-    <TgColumSlot class="flex-1/5" @handle-btn="addAccount">
-      <TgAccount btn-name="添加TG账户" @handle-btn="addAccount" />
+    <TgColumSlot class="flex-1/5" @handle-btn="delAccount">
+      <TgAccount
+        v-model:selectList="selectUser"
+        btn-name="添加TG账户"
+        type="user"
+        @handle-btn="addAccount"
+      />
     </TgColumSlot>
-    <TgColumSlot class="flex-1/5" title="TG群列表" @handle-btn="handleBtn">
-      <TgAccount btn-name="添加群" @handle-btn="addTgGroup" />
+    <TgColumSlot class="flex-1/5" title="TG群列表" @handle-btn="delGroup">
+      <TgAccount
+        ref="groupRef"
+        v-model:selectList="selectGroup"
+        btn-name="添加群"
+        type="group"
+        :chat-id="selectUser"
+        @handle-btn="addTgGroup"
+      />
     </TgColumSlot>
     <TgColumSlot class="flex-3/5" title="监测关键词" @handle-btn="handleBtn">
       <KeyWordTable />
@@ -29,9 +41,45 @@ import AddTgGroup from './components/AddTgGroup.vue'
 import AddTgKeyWord from './components/AddTgKeyWord.vue'
 import KeyWordTable from './components/keyWordTable.vue'
 import TgAccount from './components/tgAccount.vue'
+import { deleteChannel } from '@/apis'
+import { ElMessageBox } from 'element-plus'
+
+const selectUser = ref<string[]>([])
+watch(selectUser, (v) => {
+  if (v.length > 0) {
+    groupRef.value?.getAllUser()
+    selectGroup.value = []
+  }
+})
+const delAccount = async () => {
+  ElMessageBox.confirm('删除所选账户?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    await deleteChannel({
+      chatId: selectUser.value
+    })
+    ElMessage.success('删除成功')
+  })
+}
+
+const selectGroup = ref<string[]>([])
+const groupRef = ref<InstanceType<typeof TgAccount>>()
+const delGroup = async () => {
+  ElMessageBox.confirm('删除所选群组?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    await deleteChannel({
+      channelId: selectGroup.value
+    })
+    ElMessage.success('删除成功')
+  })
+}
 
 const addDialog = inject(ADD_DIALOG)
-
 // 添加TG账户
 const addAccount = () => {
   addDialog?.({
@@ -40,7 +88,6 @@ const addAccount = () => {
     component: shallowRef(AddTgAccount)
   })
 }
-
 // 添加TG账户
 const addTgGroup = () => {
   addDialog?.({
@@ -49,7 +96,6 @@ const addTgGroup = () => {
     component: shallowRef(AddTgGroup)
   })
 }
-
 //添加TG关键词
 const addKeyWord = () => {
   addDialog?.({

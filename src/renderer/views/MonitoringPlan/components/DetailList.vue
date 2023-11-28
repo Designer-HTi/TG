@@ -533,6 +533,7 @@
     </div>
   </section>
   <el-drawer
+    ref="drawerRef"
     v-model="table"
     title="看板过滤"
     :with-header="false"
@@ -540,8 +541,8 @@
     :modal="false"
     size="300"
   >
-    <el-tabs v-model="activeName" type="card" class="demo-tabs" @tab-click="handleClick">
-      <el-tab-pane label="群过滤" name="first">
+    <el-tabs v-model="activeName" type="card" class="demo-tabs">
+      <el-tab-pane label="群过滤" name="group">
         <div class="listbox">
           <el-checkbox label="Option1" border />
           <el-checkbox label="Option1" border />
@@ -549,48 +550,24 @@
           <el-checkbox label="Option1" border />
         </div>
       </el-tab-pane>
-      <el-tab-pane label="关键词过滤" name="second">Config</el-tab-pane>
+      <el-tab-pane label="关键词过滤" name="keyword">Config</el-tab-pane>
     </el-tabs>
     <div class="footer">
-      <el-button class="font_family icon-filter">保存</el-button>
+      <el-button class="font_family icon-filter" @click="onClose">保存</el-button>
     </div>
   </el-drawer>
 </template>
 
 <script setup lang="ts">
-let timer
+import { ElDrawer } from 'element-plus'
+
+const activeName = ref('group')
 
 const table = ref(false)
-const loading = ref(false)
 
 const drawerRef = ref<InstanceType<typeof ElDrawer>>()
-const onClick = () => {
-  drawerRef.value!.close()
-}
-
-const handleClose = (done) => {
-  if (loading.value) {
-    return
-  }
-  ElMessageBox.confirm('Do you want to submit?')
-    .then(() => {
-      loading.value = true
-      timer = setTimeout(() => {
-        done()
-        // 动画关闭需要一定的时间
-        setTimeout(() => {
-          loading.value = false
-        }, 400)
-      }, 2000)
-    })
-    .catch(() => {
-      // catch error
-    })
-}
-
-const cancelForm = () => {
-  loading.value = false
-  clearTimeout(timer)
+const onClose = () => {
+  drawerRef.value?.close()
 }
 </script>
 

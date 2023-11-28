@@ -4,14 +4,21 @@
 
     <el-input v-model="chatUrl" class="w-280px">
       <template #append>
-        <el-button link class="icon font_family icon-add" />
+        <el-button
+          link
+          class="icon font_family icon-add"
+          @click="
+            () => {
+              chatUrls.push(chatUrl)
+              chatUrl = ''
+            }
+          "
+        />
       </template>
     </el-input>
 
     <div class="w-280px urlList">
-      <p>111111111111</p>
-      <p>111111111111</p>
-      <p>111111111111</p>
+      <p v-for="v in chatUrls" :key="v">{{ v }}</p>
     </div>
   </div>
 
@@ -21,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { createChannel } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
 
 const emit = defineEmits<{
@@ -28,9 +36,19 @@ const emit = defineEmits<{
 }>()
 
 const chatUrl = ref('')
+const chatUrls = ref<string[]>([])
 
-const handleBtn = () => {
-  emit('close')
+const handleBtn = async () => {
+  try {
+    await createChannel({
+      chatId: '',
+      urls: chatUrls.value
+    })
+    ElMessage.success('新增成功')
+    emit('close')
+  } catch (error) {
+    console.log(error)
+  }
 }
 </script>
 
