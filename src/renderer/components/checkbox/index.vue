@@ -34,4 +34,3 @@ watch(modelValues, (v) => {
   }
 }
 </style>
-]

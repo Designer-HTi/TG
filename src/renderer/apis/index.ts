@@ -1,4 +1,12 @@
-import { ApiResponse, CreateChannelReq, CreatePlanReq, PlansRes, ChannelReq } from './types'
+import {
+  ApiResponse,
+  CreateChannelReq,
+  CreatePlanReq,
+  PlansRes,
+  ChannelReq,
+  UserRes,
+  GroupRes
+} from './types'
 import service from './service'
 
 // 获取所有方案
@@ -18,15 +26,17 @@ export function createChannel(params: CreateChannelReq) {
 
 // 获取所有账号
 export function queryAllUser() {
-  return service.get<void, ApiResponse<UserRes[]>>('/api/user')
+  return service.get<void, ApiResponse<UserRes[]>>('/api/users')
 }
 
-// 获取所有账号
+// 获取所有群组
 export function queryAllGroup(chatId: string) {
   return service.get<void, ApiResponse<GroupRes[]>>(`/api/${chatId}/channel`)
 }
 
-// 获取所有账号
+// 删除账号或群组
 export function deleteChannel(params: ChannelReq) {
-  return service.delete<void, ApiResponse<mull>>('/api/channel', params)
+  return service.delete<void, ApiResponse<null>>('/api/channel', {
+    params: params
+  })
 }

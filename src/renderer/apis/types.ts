@@ -33,6 +33,6 @@ export interface GroupRes {
 }
 
 export interface ChannelReq {
-  chatId?: string[]
+  chatId?: string
   channelId?: string[]
 }

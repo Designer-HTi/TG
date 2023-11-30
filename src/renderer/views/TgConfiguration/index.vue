@@ -1,20 +1,13 @@
 <template>
   <div class="h-full flex">
     <TgColumSlot class="flex-1/5" @handle-btn="delAccount">
-      <TgAccount
-        v-model:selectList="selectUser"
-        btn-name="添加TG账户"
-        type="user"
-        @handle-btn="addAccount"
-      />
+      <TgAccount v-model:chatId="chatId" @handle-btn="addAccount" />
     </TgColumSlot>
     <TgColumSlot class="flex-1/5" title="TG群列表" @handle-btn="delGroup">
-      <TgAccount
+      <TgGroup
         ref="groupRef"
         v-model:selectList="selectGroup"
-        btn-name="添加群"
-        type="group"
-        :chat-id="selectUser"
+        :chat-id="chatId"
         @handle-btn="addTgGroup"
       />
     </TgColumSlot>
@@ -37,6 +30,7 @@ import { ADD_DIALOG } from '@/components/dialog'
 import TgButton from '@/components/tgButton/index.vue'
 import TgColumSlot from '@/components/tgColumnSlot/index.vue'
 import AddTgAccount from './components/AddTgAccount.vue'
+import TgGroup from './components/tgGroup.vue'
 import AddTgGroup from './components/AddTgGroup.vue'
 import AddTgKeyWord from './components/AddTgKeyWord.vue'
 import KeyWordTable from './components/keyWordTable.vue'
@@ -44,13 +38,7 @@ import TgAccount from './components/tgAccount.vue'
 import { deleteChannel } from '@/apis'
 import { ElMessageBox } from 'element-plus'
 
-const selectUser = ref<string[]>([])
-watch(selectUser, (v) => {
-  if (v.length > 0) {
-    groupRef.value?.getAllUser()
-    selectGroup.value = []
-  }
-})
+const chatId = ref('')
 const delAccount = async () => {
   ElMessageBox.confirm('删除所选账户?', '提示', {
     confirmButtonText: '确认',
@@ -58,7 +46,7 @@ const delAccount = async () => {
     type: 'warning'
   }).then(async () => {
     await deleteChannel({
-      chatId: selectUser.value
+      chatId: chatId.value
     })
     ElMessage.success('删除成功')
   })
