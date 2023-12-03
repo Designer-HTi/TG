@@ -5,7 +5,7 @@ import { getAllGroupKeyword } from './utils'
 import useMonitoringData from '@/store/common/monitoringData'
 // import Socket from './utils/websocket'
 
-// const wbSocket = new Socket<null, string>({ url: '127.0.0.1:3000' })
+// const wbSocket = new Socket<null, string>({ url: 'ws://172.208.105.151:3399/websocket' })
 // wbSocket.onmessage((data: string) => {
 //   const str = JSON.stringify(data)
 //   console.log('server data:', str)

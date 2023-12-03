@@ -12,7 +12,9 @@
 
     <el-input v-else v-model="chatId" class="w-280px"></el-input>
 
-    <a v-if="active === 1" class="link">点我打开链接添加TG智能监测机器人</a>
+    <a v-if="active === 1" class="link" url="https://www.bilibili.com/"
+      >点我打开链接添加TG智能监测机器人</a
+    >
     <a v-else class="link">在上方输入框输入你的TG Chat ID</a>
   </div>
   <div class="flex justify-end !py-10px !mt-10">

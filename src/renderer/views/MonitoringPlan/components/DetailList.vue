@@ -46,10 +46,8 @@
     v-model="showDrawer"
     title="看板过滤"
     :with-header="false"
-    direction="rtl"
-    :modal="false"
     size="300"
-    :close-on-click-modal="false"
+    append-to-body
   >
     <el-tabs v-model="activeName" type="card" class="demo-tabs">
       <el-tab-pane label="群过滤" name="group">
@@ -59,11 +57,11 @@
           </el-checkbox>
         </el-checkbox-group>
       </el-tab-pane>
-      <el-tab-pane label="关键词过滤" name="keyword">
+      <!-- <el-tab-pane label="关键词过滤" name="keyword">
         <el-checkbox-group v-model="selectKeywordsList" class="listbox">
           <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
         </el-checkbox-group>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
     <div class="footer">
       <el-button class="font_family icon-filter" @click="onClose">保存</el-button>
@@ -87,7 +85,7 @@ onMounted(() => {
 
 const monitoringData = computed(() => useMonitoringData().$state.monitoringData)
 const groupList = computed(() => useMonitoringData().$state.groupList)
-const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
+// const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
 
 const activeName = ref('group')
 

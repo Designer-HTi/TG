@@ -4,7 +4,9 @@
     <div class="navbox">
       <div class="box-1 box">
         <p>工作台</p>
-        <div class="navitem icon font_family icon-add" @click="show">新增监测方案</div>
+        <div class="navitem" @click="show">
+          <el-icon><Plus /></el-icon>新增监测方案
+        </div>
         <router-link
           v-for="item in planList"
           :key="item.id"
