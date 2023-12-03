@@ -1,6 +1,8 @@
 <template>
   <div class="siderbar">
-    <div class="logo"><img src="../assets/img/Logo.png" alt="" /></div>
+    <div class="logobox">
+      <div class="logo"><p>TG信息监测平台</p></div>
+    </div>
     <div class="navbox">
       <div class="box-1 box">
         <p>工作台</p>
@@ -29,10 +31,10 @@
         >
           TG配置
         </router-link>
-        <p>数据库</p>
+        <!-- <p>数据库</p>
         <router-link class="navitem icon font_family icon-add" :to="{ path: '/DataCenter' }">
           数据中心
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </div>
@@ -82,11 +84,26 @@ const getPlan = async () => {
   width: 240px;
   min-width: 240px;
   border-right: 1px solid @border-hr;
-  .logo {
+  .logobox {
     height: 64px;
-
-    img {
-      padding: 16px;
+    padding: 16px;
+    .logo {
+      width: 204px;
+      height: 32px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+      border: 1px solid #1f2023;
+      box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.3) inset;
+      font-size: 16px;
+      font-family: 500;
+      p {
+        background: linear-gradient(270deg, #4ea7fc 0%, #fff 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
   }
   .navbox {
