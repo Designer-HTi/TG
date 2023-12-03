@@ -7,6 +7,8 @@
       v-model="item.visible"
       :title="item.title"
       :width="item.width"
+      destroy-on-close
+      :close-on-click-modal="false"
       @close="() => closeDialog(item, index, false)"
     >
       <component

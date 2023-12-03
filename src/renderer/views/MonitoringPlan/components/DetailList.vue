@@ -2,555 +2,68 @@
   <section>
     <div class="head">
       <div class="left"></div>
-      <div class="title">看板一</div>
+      <div class="title">看板{{ count }}</div>
       <div class="right">
-        <el-button class="font_family icon-filter" @click="table = true">过滤</el-button>
+        <el-button class="font_family icon-filter" @click="showDrawer = true">过滤</el-button>
       </div>
     </div>
     <div class="list">
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
+      <transition-group name="el-zoom-in-center">
+        <div
+          v-for="item in monitoringData.filter((v) => Number(v.id) % count === 0)"
+          :key="item.id"
+          class="descriptions"
+        >
+          <div class="descriptions__cell_group">
+            <div class="descriptions__cell">
+              <div class="descriptions_label">命中词</div>
+              <div class="descriptions_content">{{ item.keyWords.join('，') }}</div>
+            </div>
+            <div class="time">{{ item.createTime }}</div>
+          </div>
           <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
+            <div class="descriptions_label">群名</div>
+            <div class="descriptions_content">{{ item.groupName }}</div>
           </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
           <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
+            <div class="descriptions_label">发言人ID</div>
+            <div class="descriptions_content">{{ item.userId }}</div>
           </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
+          <hr />
+          <div class="descriptions__cell column">
+            <div class="descriptions_label">言论</div>
+            <div class="descriptions_content box" v-html="item.message"></div>
+          </div>
+          <div class="button">
+            <el-button class="font_family icon-Frame">复制举证 </el-button>
           </div>
         </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
-      <div class="descriptions">
-        <div class="descriptions__cell_group">
-          <div class="descriptions__cell">
-            <div class="descriptions_label">命中词</div>
-            <div class="descriptions_content">小破孩</div>
-          </div>
-          <div class="time">21:03:04</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">群名</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <div class="descriptions__cell">
-          <div class="descriptions_label">发言人ID</div>
-          <div class="descriptions_content">小破孩</div>
-        </div>
-        <hr />
-        <div class="descriptions__cell column">
-          <div class="descriptions_label">言论</div>
-          <div class="descriptions_content box">
-            小破孩
-            <b class="tag">小破孩</b>
-            在干嘛
-          </div>
-        </div>
-        <div class="button">
-          <el-button class="font_family icon-Frame">复制举证 </el-button>
-        </div>
-      </div>
+      </transition-group>
     </div>
   </section>
   <el-drawer
     ref="drawerRef"
-    v-model="table"
+    v-model="showDrawer"
     title="看板过滤"
     :with-header="false"
     direction="rtl"
     :modal="false"
     size="300"
+    :close-on-click-modal="false"
   >
     <el-tabs v-model="activeName" type="card" class="demo-tabs">
       <el-tab-pane label="群过滤" name="group">
-        <div class="listbox">
-          <el-checkbox label="Option1" border />
-          <el-checkbox label="Option1" border />
-          <el-checkbox label="Option1" border />
-          <el-checkbox label="Option1" border />
-        </div>
+        <el-checkbox-group v-model="selectGroupList" class="listbox">
+          <el-checkbox v-for="item in groupList" :key="item.id" :label="item.id" border>
+            {{ item.channelName }}
+          </el-checkbox>
+        </el-checkbox-group>
       </el-tab-pane>
-      <el-tab-pane label="关键词过滤" name="keyword">Config</el-tab-pane>
+      <el-tab-pane label="关键词过滤" name="keyword">
+        <el-checkbox-group v-model="selectKeywordsList" class="listbox">
+          <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
+        </el-checkbox-group>
+      </el-tab-pane>
     </el-tabs>
     <div class="footer">
       <el-button class="font_family icon-filter" @click="onClose">保存</el-button>
@@ -560,14 +73,44 @@
 
 <script setup lang="ts">
 import { ElDrawer } from 'element-plus'
+import useMonitoringData from '@/store/common/monitoringData'
+import { updatePlan } from '@/apis'
+
+defineProps<{
+  count: number
+}>()
+
+const route = useRoute()
+onMounted(() => {
+  console.log(route.query)
+})
+
+const monitoringData = computed(() => useMonitoringData().$state.monitoringData)
+const groupList = computed(() => useMonitoringData().$state.groupList)
+const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
 
 const activeName = ref('group')
 
-const table = ref(false)
+const selectGroupList = ref<string[]>([])
+const selectKeywordsList = ref<string[]>([])
+
+const showDrawer = ref(false)
 
 const drawerRef = ref<InstanceType<typeof ElDrawer>>()
-const onClose = () => {
-  drawerRef.value?.close()
+const onClose = async () => {
+  const res = await updatePlan({
+    plan_id: '1',
+    filters: [
+      {
+        group: selectGroupList.value,
+        keywords: selectKeywordsList.value
+      }
+    ]
+  })
+  if (res.code === 'success') {
+    ElMessage.success('保存成功')
+    // drawerRef.value?.close()
+  }
 }
 </script>
 

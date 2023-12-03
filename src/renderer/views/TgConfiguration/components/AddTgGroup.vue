@@ -2,7 +2,7 @@
   <div class="flex-col items-center gap-8 !px-20">
     <p class="link">请在下方输入框输入你需要监测的群链接</p>
 
-    <el-input v-model="chatUrl" class="w-280px">
+    <el-input ref="inputRef" v-model="chatUrl" class="w-280px" maxlength="100">
       <template #append>
         <el-button
           link
@@ -11,6 +11,7 @@
             () => {
               chatUrls.push(chatUrl)
               chatUrl = ''
+              inputRef?.focus()
             }
           "
         />
@@ -23,29 +24,48 @@
   </div>
 
   <div class="flex justify-end !py-10px !mt-10">
-    <TgButton icon-name="add" class="w-25" @handle-btn="handleBtn"> 完成 </TgButton>
+    <TgButton icon-name="add" class="w-25" :disabled="chatUrls.length <= 0" @handle-btn="handleBtn">
+      完成
+    </TgButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import { createChannel } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { getAllGroupKeyword } from '@/utils'
+
+const props = defineProps<{
+  chatId: string
+}>()
 
 const emit = defineEmits<{
-  close: []
+  close: [string]
 }>()
+
+onMounted(() => {
+  inputRef.value?.focus()
+})
 
 const chatUrl = ref('')
 const chatUrls = ref<string[]>([])
+const inputRef = ref<HTMLElement>()
 
 const handleBtn = async () => {
+  if (!props.chatId) {
+    ElMessage.warning('请选择TG账户后再新增TG群')
+  }
   try {
-    await createChannel({
-      chatId: '',
+    const res = await createChannel({
+      chatId: props.chatId,
       urls: chatUrls.value
     })
-    ElMessage.success('新增成功')
-    emit('close')
+
+    if (res.code === 'success') {
+      ElMessage.success('新增成功')
+      emit('close', 'update')
+      getAllGroupKeyword()
+    }
   } catch (error) {
     console.log(error)
   }

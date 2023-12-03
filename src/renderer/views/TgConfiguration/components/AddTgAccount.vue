@@ -19,17 +19,19 @@
     <TgButton icon-name="add" class="w-25" @handle-btn="next">
       {{ active === 1 ? '下一步' : '上一步' }}
     </TgButton>
-    <TgButton icon-name="add" class="w-25" @handle-btn="handleBtn"> 完成 </TgButton>
+    <TgButton v-if="active === 2" icon-name="add" class="w-25" @handle-btn="handleBtn">
+      完成
+    </TgButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { createChannel } from '@/apis'
+import { createUser } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
 import { ElMessage } from 'element-plus'
 
 const emit = defineEmits<{
-  close: []
+  close: [string]
 }>()
 
 const active = ref(1)
@@ -41,11 +43,13 @@ const next = () => {
 }
 const handleBtn = async () => {
   try {
-    await createChannel({
+    const res = await createUser({
       chatId: chatId.value
     })
     ElMessage.success('新增成功')
-    emit('close')
+    if (res.code === 'success') {
+      emit('close', 'update')
+    }
   } catch (error) {
     console.log(error)
   }

@@ -1,5 +1,5 @@
 export interface ApiResponse<T> {
-  code: string
+  code: 'success' | 'error'
   data: T
   msg: string
 }
@@ -19,7 +19,7 @@ export interface CreatePlanReq {
 
 export interface CreateChannelReq {
   chatId: string
-  urls?: string[]
+  urls: string[]
 }
 
 export interface UserRes {
@@ -27,12 +27,43 @@ export interface UserRes {
 }
 
 export interface GroupRes {
+  id: string
   chatId: string
-  channelName?: string
-  channelId?: string
+  channelName: string
+  createTime: string
 }
 
 export interface ChannelReq {
-  chatId?: string
-  channelId?: string[]
+  chatId: string
+  channelIds: string[]
+}
+
+export interface CreateUserReq {
+  chatId: string
+}
+
+export interface KeywordsReq {
+  chatId: string
+  groupIds: string[]
+}
+
+export interface AddKeywordsReq {
+  chatId: string
+  keyword_data: {
+    channelId: string
+    channelName: string
+    keywords: string[]
+  }[]
+}
+
+export interface KeywordsRes {
+  keywords: string[]
+  channelId: string
+  channelName: string
+  create_time: string
+}
+
+export interface UpdatePlanReq {
+  plan_id: string
+  filters: any
 }

@@ -9,7 +9,12 @@
           v-for="item in planList"
           :key="item.id"
           class="navitem icon font_family icon-add"
-          :to="{ path: `/MonitoringPlan/${item.planType}` }"
+          :to="{
+            path: `/MonitoringPlan/${item.planType}`,
+            query: {
+              filters: item.filters
+            }
+          }"
         >
           {{ item.planName }}
         </router-link>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="planCount !== 0" :key="planCount" class="flex">
-    <DetailListVue v-for="i in planCount" :key="i" />
+    <DetailListVue v-for="i in planCount" :key="i" :count="i" />
   </div>
   <div v-else class="content">
     <div class="img"></div>

@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex">
     <TgColumSlot class="flex-1/5" @handle-btn="delAccount">
-      <TgAccount v-model:chatId="chatId" @handle-btn="addAccount" />
+      <TgAccount ref="accountRef" v-model:chatId="chatId" @handle-btn="addAccount" />
     </TgColumSlot>
     <TgColumSlot class="flex-1/5" title="TG群列表" @handle-btn="delGroup">
       <TgGroup
@@ -11,13 +11,13 @@
         @handle-btn="addTgGroup"
       />
     </TgColumSlot>
-    <TgColumSlot class="flex-3/5" title="监测关键词" @handle-btn="handleBtn">
-      <KeyWordTable />
+    <TgColumSlot class="flex-3/5" title="监测关键词">
+      <KeyWordTable ref="keywordsRef" :chat-id="chatId" :select-group="selectGroup" />
       <template #footer>
         <TgButton class="w-full" icon-name="add" @handle-btn="addKeyWord">
           为所选栏目添加监测关键词
         </TgButton>
-        <TgButton class="w-full" icon-name="add" @handle-btn="handleBtn">
+        <TgButton class="w-full" icon-name="add" @handle-btn="delKeyWords">
           删除所选栏目关键词
         </TgButton>
       </template>
@@ -35,35 +35,45 @@ import AddTgGroup from './components/AddTgGroup.vue'
 import AddTgKeyWord from './components/AddTgKeyWord.vue'
 import KeyWordTable from './components/keyWordTable.vue'
 import TgAccount from './components/tgAccount.vue'
-import { deleteChannel } from '@/apis'
+import { deleteChannel, deleteUser } from '@/apis'
 import { ElMessageBox } from 'element-plus'
+import { getAllGroupKeyword } from '@/utils'
 
 const chatId = ref('')
+const accountRef = ref<InstanceType<typeof TgAccount>>()
 const delAccount = async () => {
   ElMessageBox.confirm('删除所选账户?', '提示', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    await deleteChannel({
+    const res = await deleteUser({
       chatId: chatId.value
     })
-    ElMessage.success('删除成功')
+    if (res.code === 'success') {
+      accountRef.value?.getAllUser()
+      ElMessage.success('删除成功')
+    }
   })
 }
 
 const selectGroup = ref<string[]>([])
-const groupRef = ref<InstanceType<typeof TgAccount>>()
+const groupRef = ref<InstanceType<typeof TgGroup>>()
 const delGroup = async () => {
   ElMessageBox.confirm('删除所选群组?', '提示', {
     confirmButtonText: '确认',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    await deleteChannel({
-      channelId: selectGroup.value
+    const res = await deleteChannel({
+      chatId: chatId.value,
+      channelIds: selectGroup.value
     })
-    ElMessage.success('删除成功')
+    if (res.code === 'success') {
+      groupRef.value?.getAllGroup()
+      ElMessage.success('删除成功')
+      getAllGroupKeyword()
+    }
   })
 }
 
@@ -73,28 +83,51 @@ const addAccount = () => {
   addDialog?.({
     title: '添加TG账户',
     width: '657px',
-    component: shallowRef(AddTgAccount)
+    component: shallowRef(AddTgAccount),
+    callBack(name: string) {
+      if (name === 'update') {
+        accountRef.value?.getAllUser()
+      }
+    }
   })
 }
-// 添加TG账户
+// 添加TG群
 const addTgGroup = () => {
   addDialog?.({
     title: '添加TG群',
     width: '657px',
-    component: shallowRef(AddTgGroup)
-  })
-}
-//添加TG关键词
-const addKeyWord = () => {
-  addDialog?.({
-    title: '添加TG群',
-    width: '657px',
-    component: shallowRef(AddTgKeyWord)
+    props: {
+      chatId
+    },
+    component: shallowRef(AddTgGroup),
+    callBack(name: string) {
+      if (name === 'update') {
+        groupRef.value?.getAllGroup()
+      }
+    }
   })
 }
 
-const handleBtn = () => {
-  console.log(111)
+const keywordsRef = ref<InstanceType<typeof KeyWordTable>>()
+//添加TG关键词
+const addKeyWord = () => {
+  addDialog?.({
+    title: '添加关键词',
+    width: '657px',
+    props: {
+      chatId,
+      selectGroup
+    },
+    component: shallowRef(AddTgKeyWord),
+    callBack(name: string) {
+      if (name === 'update') {
+        keywordsRef.value?.getKeywords()
+      }
+    }
+  })
+}
+const delKeyWords = () => {
+  keywordsRef.value?.delKeywords()
 }
 </script>
 

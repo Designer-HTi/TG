@@ -1,22 +1,32 @@
 import { defineStore } from 'pinia'
 import NAMES from '../types'
 import { MonitoringData } from '../types/interface'
+import { GroupRes } from '@/apis/types'
 
 // 监测数据
-const user = defineStore(NAMES.MONITORING_DATA, {
+const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
   state: () => {
-    return [] as MonitoringData[]
-  },
-  getters: {
-    getMonitoringData(state) {
-      return state
+    return {
+      monitoringData: [] as MonitoringData[],
+      groupList: [] as GroupRes[],
+      keywordsList: [] as string[]
     }
   },
+  getters: {},
   actions: {
     pushMonitoringData(data: MonitoringData) {
-      this.$state.push(data)
+      this.$state.monitoringData.unshift(data)
+      if (this.$state.monitoringData.length >= 50) {
+        this.$state.monitoringData.length = 50
+      }
+    },
+    setGroupList(data: GroupRes[]) {
+      this.$state.groupList = data
+    },
+    setKeywordsList(data: string[]) {
+      this.$state.keywordsList = data
     }
   }
 })
 
-export default user
+export default useMonitoringData

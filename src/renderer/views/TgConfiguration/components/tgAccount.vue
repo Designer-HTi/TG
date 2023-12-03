@@ -1,7 +1,7 @@
 <template>
   <div class="h-full flex flex-col gap-10px">
     <TgButton class="w-full" icon-name="add" @handle-btn="emit('handleBtn')"> 添加TG账户 </TgButton>
-    <div class="grow h-0 overflow-y-auto">
+    <div v-loading="userLoading" class="grow h-0 overflow-y-auto">
       <div
         v-for="item in userList"
         :key="item.chatId"
@@ -35,35 +35,16 @@ onMounted(() => {
   getAllUser()
 })
 
-const userList = ref<UserRes[]>([
-  {
-    chatId: '1001'
-  },
-  {
-    chatId: '1002'
-  },
-  {
-    chatId: '1003'
-  }
-])
+const userList = ref<UserRes[]>([])
 
+const userLoading = ref(false)
 const getAllUser = async () => {
-  queryAllUser().then((res) => {
-    userList.value =
-      res.data.length > 0
-        ? res.data
-        : [
-            {
-              chatId: '1001'
-            },
-            {
-              chatId: '1002'
-            },
-            {
-              chatId: '1003'
-            }
-          ]
-  })
+  userLoading.value = true
+  const res = await queryAllUser()
+  if (res.code === 'success') {
+    userList.value = res.data.length > 0 ? res.data : []
+    userLoading.value = false
+  }
 }
 
 defineExpose({
@@ -80,6 +61,7 @@ defineExpose({
   padding-left: 8px;
   padding-right: 8px;
   text-align: center;
+  cursor: pointer;
   &.active {
     background: rgba(78, 167, 252, 0.1);
     border-bottom: 0.5px solid @primary;

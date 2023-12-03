@@ -1,5 +1,7 @@
 <template>
-  <el-checkbox v-model="modelValues" v-bind="properties" class="w-full" size="large"></el-checkbox>
+  <el-checkbox v-model="modelValues" v-bind="properties" class="w-full" size="large"
+    ><slot></slot
+  ></el-checkbox>
 </template>
 
 <script setup lang="ts">
@@ -15,10 +17,6 @@ const emit = defineEmits<{
 }>()
 
 const modelValues = useVModel(props, 'modelValue', emit)
-
-watch(modelValues, (v) => {
-  console.log(v)
-})
 </script>
 
 <style scoped lang="less">
@@ -28,6 +26,7 @@ watch(modelValues, (v) => {
   height: 44px;
   padding-left: 8px;
   padding-right: 8px;
+  margin: 0;
   &.is-checked {
     background: rgba(78, 167, 252, 0.1);
     border-bottom: 0.5px solid @primary;
