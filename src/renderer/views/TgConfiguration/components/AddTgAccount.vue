@@ -18,11 +18,11 @@
     <a v-else class="link">在上方输入框输入你的TG Chat ID</a>
   </div>
   <div class="flex justify-end !py-10px !mt-10">
-    <TgButton icon-name="add" class="w-25" @handle-btn="next">
+    <TgButton class="w-25" @handle-btn="next">
       {{ active === 1 ? '下一步' : '上一步' }}
     </TgButton>
-    <TgButton v-if="active === 2" icon-name="add" class="w-25" @handle-btn="handleBtn">
-      完成
+    <TgButton v-if="active === 2" class="w-25" @handle-btn="handleBtn">
+      <el-icon><Check /></el-icon>完成
     </TgButton>
   </div>
 </template>

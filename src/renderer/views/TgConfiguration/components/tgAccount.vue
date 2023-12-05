@@ -1,6 +1,8 @@
 <template>
   <div class="h-full flex flex-col gap-10px">
-    <TgButton class="w-full" icon-name="add" @handle-btn="emit('handleBtn')"> 添加TG账户 </TgButton>
+    <TgButton class="w-full" @handle-btn="emit('handleBtn')"
+      ><el-icon><Plus /></el-icon> 添加TG账户
+    </TgButton>
     <div v-loading="userLoading" class="grow h-0 overflow-y-auto">
       <div
         v-for="item in userList"

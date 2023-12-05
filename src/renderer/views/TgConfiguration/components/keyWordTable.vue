@@ -2,11 +2,9 @@
   <div class="flex-col h-full gap-10px">
     <div class="flex justify-between head">
       <div class="flex items-center gap-2">
-        <i class="icon font_family icon-add"></i>
         <span>关键词</span>
       </div>
       <div class="w-120px flex items-center justify-center gap-2">
-        <i class="icon font_family icon-add"></i>
         <span>操作</span>
       </div>
     </div>
@@ -130,5 +128,9 @@ defineExpose({
   line-height: 32px;
   background: @button-fill;
   font-size: 14px;
+  color: @Secondary-text;
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid @button-stroke;
 }
 </style>
