@@ -9,11 +9,7 @@
     </div>
     <div class="list">
       <transition-group name="el-zoom-in-center">
-        <div
-          v-for="item in monitoringData.filter((v) => Number(v.id) % count === 0)"
-          :key="item.id"
-          class="descriptions"
-        >
+        <div v-for="item in monitoringData" :key="item.id" class="descriptions">
           <div class="descriptions__cell_group">
             <div class="descriptions__cell">
               <div class="descriptions_label">命中词</div>

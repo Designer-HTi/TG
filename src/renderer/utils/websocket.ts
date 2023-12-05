@@ -1,3 +1,4 @@
+import { MonitoringData } from '@/store/types/interface'
 import { ElMessage } from 'element-plus'
 
 export type Callback = (e: Event) => void
@@ -96,7 +97,7 @@ export default class Socket<T, RT> extends Heart {
     this.ws = new WebSocket(this.options.url)
     this.onopen(this.options.openCb as Callback)
     this.onclose(this.options.closeCb as Callback)
-    this.onmessage(this.options.messageCb as MessageCallback<RT>)
+    this.onmessage(this.options.messageCb as MessageCallback<MonitoringData>)
   }
 
   /**
@@ -158,25 +159,25 @@ export default class Socket<T, RT> extends Heart {
    * 如果callback存在，调用callback，不存在调用OPTIONS中的回调
    * @param {Function} callback 回调函数
    */
-  onmessage(callback: MessageCallback<RT>): void {
+  onmessage(callback: MessageCallback<MonitoringData>): void {
     this.ws.onmessage = (event: MessageEvent<string>) => {
       const strMessage = event.data
-      const { code, data, msg } = JSON.parse(strMessage)
-      if (code === 200) {
-        // 收到任何消息，重新开始倒计时心跳检测
-        super.reset()
-        super.start(() => {
-          this.send(this.options.heartMsg as string)
-        })
-        console.log(data, 'onmessage')
-        if (typeof callback === 'function') {
-          callback(data)
-        } else {
-          typeof this.options.messageCb === 'function' && this.options.messageCb(data)
-        }
+      // const { code, data, msg } = JSON.parse(strMessage)
+      // if (code === 200) {
+      // 收到任何消息，重新开始倒计时心跳检测
+      super.reset()
+      super.start(() => {
+        this.send(this.options.heartMsg as string)
+      })
+      if (typeof callback === 'function') {
+        callback(JSON.parse(strMessage))
       } else {
-        ElMessage.error(msg || '收到失败的数据！')
+        typeof this.options.messageCb === 'function' &&
+          this.options.messageCb(JSON.parse(strMessage))
       }
+      // } else {
+      //   ElMessage.error(msg || '收到失败的数据！')
+      // }
     }
   }
 

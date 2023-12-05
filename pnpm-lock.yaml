@@ -29,6 +29,9 @@ dependencies:
   eslint-plugin-html:
     specifier: ^7.1.0
     version: 7.1.0
+  uuid:
+    specifier: ^9.0.1
+    version: registry.npmmirror.com/uuid@9.0.1
   vue-router:
     specifier: ^4.2.5
     version: 4.2.5(vue@3.3.7)
@@ -6211,6 +6214,13 @@ packages:
       punycode: registry.npmmirror.com/punycode@2.3.1
     dev: true
     optional: true
+
+  registry.npmmirror.com/uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==, tarball: https://registry.npmmirror.com/uuid/-/uuid-9.0.1.tgz}
+    name: uuid
+    version: 9.0.1
+    hasBin: true
+    dev: false
 
   registry.npmmirror.com/verror@1.10.1:
     resolution: {integrity: sha512-veufcmxri4e3XSrT0xwfUR7kguIkaxBeosDg00yDWhk49wdwkSUrvvsm7nc75e1PUyvIeZj6nS8VQRYz2/S4Xg==, tarball: https://registry.npmmirror.com/verror/-/verror-1.10.1.tgz}

@@ -19,7 +19,12 @@
   </div>
   <div class="flex justify-end !py-10px !mt-10">
     <TgButton class="w-25" @handle-btn="next">
-      {{ active === 1 ? '下一步' : '上一步' }}
+      <div v-if="active === 1" class="flex items-center">
+        下一步<el-icon><Bottom /></el-icon>
+      </div>
+      <div v-else class="flex items-center">
+        上一步<el-icon><Top /></el-icon>
+      </div>
     </TgButton>
     <TgButton v-if="active === 2" class="w-25" @handle-btn="handleBtn">
       <el-icon><Check /></el-icon>完成
