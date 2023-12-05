@@ -35,7 +35,15 @@
             <div class="descriptions_content box" v-html="item.message"></div>
           </div>
           <div class="button">
-            <el-button class="font_family icon-Frame">复制举证 </el-button>
+            <el-button
+              class="font_family icon-Frame"
+              @click="
+                handleCopy(
+                  `用户：${item.userName}；用户ID：${item.userId}；时间：${item.createTime}；群名：${item.groupName}；言论：${item.message}；`
+                )
+              "
+              >复制举证
+            </el-button>
           </div>
         </div>
       </transition-group>
@@ -73,6 +81,7 @@
 import { ElDrawer } from 'element-plus'
 import useMonitoringData from '@/store/common/monitoringData'
 import { updatePlan } from '@/apis'
+import { handleCopy } from '@/utils'
 
 defineProps<{
   count: number
@@ -202,6 +211,7 @@ section {
         color: @Secondary-text;
       }
       .descriptions_content {
+        flex: 1;
         color: @primary-text;
         &.box {
           padding: 8px;

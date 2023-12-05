@@ -1,13 +1,13 @@
 <template>
   <div class="flex flex-col justify-between w-full h-full content">
     <div class="head text-center">{{ title }}</div>
-    <div class="w-full grow !px-24px !py-16px">
+    <div class="w-full grow !px-16px !py-16px">
       <slot></slot>
     </div>
-    <div class="flex justify-center items-center !px-24px footer">
+    <div class="flex justify-center items-center !px-16px footer">
       <slot name="footer">
-        <TgButton icon-name="add" @handle-btn="emit('handleBtn')">
-          {{ btnName }}
+        <TgButton @handle-btn="emit('handleBtn')">
+          <el-icon><Delete /></el-icon>{{ btnName }}
         </TgButton>
       </slot>
     </div>
@@ -47,7 +47,7 @@ const emit = defineEmits<{
     border-top: 1px solid @border-hr;
     height: 52px;
     .el-button {
-      width: 228px;
+      width: 100%;
       background-color: @button-fill;
     }
   }

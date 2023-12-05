@@ -14,11 +14,11 @@
     <TgColumSlot class="flex-3/5" title="监测关键词">
       <KeyWordTable ref="keywordsRef" :chat-id="chatId" :select-group="selectGroup" />
       <template #footer>
-        <TgButton class="w-full" icon-name="add" @handle-btn="addKeyWord">
-          为所选栏目添加监测关键词
+        <TgButton class="w-full" @handle-btn="addKeyWord">
+          <el-icon><Plus /></el-icon> 为所选栏目添加监测关键词
         </TgButton>
-        <TgButton class="w-full" icon-name="add" @handle-btn="delKeyWords">
-          删除所选栏目关键词
+        <TgButton class="w-full" @handle-btn="delKeyWords">
+          <el-icon><Delete /></el-icon> 删除所选栏目关键词
         </TgButton>
       </template>
     </TgColumSlot>
