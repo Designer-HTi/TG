@@ -8,10 +8,9 @@ import { SET_WINDOW_SIZE } from './constants'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1440,
+    height: 810,
     show: false,
-    fullscreen: true,
     autoHideMenuBar: true,
     frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),

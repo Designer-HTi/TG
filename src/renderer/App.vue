@@ -15,25 +15,6 @@ wbSocket.onmessage((data: MonitoringData) => {
 
 onMounted(() => {
   getAllGroupKeyword()
-
-  // let i = 0
-  // setInterval(() => {
-  //   const obj = {
-  //     id: i.toString(),
-  //     chatId: `chatId${i}`,
-  //     groupId: `groupId${i}`,
-  //     groupName: `groupName${i}`,
-  //     createTime: new Date().getTime().toString(),
-  //     keyWords: ['111', '222'],
-  //     userName: `userName${i}`,
-  //     userId: `userId${i}`,
-  //     message: `y做单看我 签名 in 海外同胞交流群 111招人进微信群发广告，发一个222群给你30块${i++}`
-  //   }
-  //   obj.keyWords.forEach((v) => {
-  //     obj.message = obj.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
-  //   })
-  //   useMonitoringData().pushMonitoringData(obj)
-  // }, 2000)
 })
 </script>
 
