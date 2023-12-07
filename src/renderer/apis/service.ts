@@ -2,7 +2,7 @@ import axios, { InternalAxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
 const service = axios.create({
-  baseURL: 'http://172.208.105.151',
+  baseURL: import.meta.env.DEV ? 'http://172.208.105.151' : 'http://127.0.0.1',
   timeout: 15000
 })
 

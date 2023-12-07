@@ -15,6 +15,7 @@ wbSocket.onmessage((data: MonitoringData) => {
 
 onMounted(() => {
   getAllGroupKeyword()
+  console.log(import.meta.env)
 })
 </script>
 
