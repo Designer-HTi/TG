@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { setWindowSize } from './eventCollection'
 import { SET_WINDOW_SIZE } from './constants'
+import { electronStore } from './store'
 
 function createWindow(): void {
   // Create the browser window.
@@ -55,6 +56,11 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on(SET_WINDOW_SIZE, setWindowSize)
+
+  // 监听设置的改变并发送消息给渲染进程
+  ipcMain.on('getConfig', (event) => {
+    event.returnValue = electronStore.getAllSettings()
+  })
 
   createWindow()
 

@@ -13,9 +13,9 @@ wbSocket.onmessage((data: MonitoringData) => {
   useMonitoringData().pushMonitoringData({ ...data, id: uuidv4() })
 })
 
-onMounted(() => {
+onMounted(async () => {
   getAllGroupKeyword()
-  console.log(import.meta.env)
+  console.log(await window.getConfig())
 })
 </script>
 
