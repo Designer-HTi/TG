@@ -7,5 +7,8 @@ declare global {
     electronApi: {
       setWindowSize: (type: string) => Electron.IpcRenderer
     }
+    getConfig: () => Promise<{
+      url: string
+    }>
   }
 }

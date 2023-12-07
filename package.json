@@ -25,6 +25,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^10.6.0",
     "axios": "^1.6.0",
+    "electron-store": "^8.1.0",
     "electron-updater": "^6.1.1",
     "element-plus": "^2.4.2",
     "eslint-plugin-html": "^7.1.0",
