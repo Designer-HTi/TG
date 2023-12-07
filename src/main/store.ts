@@ -1,4 +1,3 @@
-import { ipcMain, ipcRenderer } from 'electron'
 import Store from 'electron-store'
 
 // 定义存储的数据类型
@@ -13,7 +12,7 @@ class ElectronStoreWrapper {
   constructor() {
     // 在这里添加你的默认设置
     const defaults: AppSettings = {
-      url: 'http://172.208.105.151'
+      url: '127.0.0.1:3399'
       // 添加其他默认设置
     }
 

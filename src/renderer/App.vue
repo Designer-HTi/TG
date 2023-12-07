@@ -6,16 +6,19 @@ import useMonitoringData from '@/store/common/monitoringData'
 import Socket from './utils/websocket'
 import { MonitoringData } from './store/types/interface'
 import { v4 as uuidv4 } from 'uuid'
+import useConfig from './store/common/config'
 
-const wbSocket = new Socket<null, string>({ url: 'ws://172.208.105.151/websocket' })
-wbSocket.onmessage((data: MonitoringData) => {
-  console.log('server data:', { ...data, id: uuidv4() })
-  useMonitoringData().pushMonitoringData({ ...data, id: uuidv4() })
-})
+const config = useConfig()
+onBeforeMount(async () => {
+  const data = await window.getConfig()
+  config.setUrl(data.url)
 
-onMounted(async () => {
+  const wbSocket = new Socket<null, string>({ url: `ws://${config.$state.url}/websocket` })
+  wbSocket.onmessage((data: MonitoringData) => {
+    useMonitoringData().pushMonitoringData({ ...data, id: uuidv4() })
+  })
+
   getAllGroupKeyword()
-  console.log(await window.getConfig())
 })
 </script>
 

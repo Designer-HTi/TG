@@ -1,8 +1,9 @@
 import axios, { InternalAxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
+const data = await window.getConfig()
 const service = axios.create({
-  baseURL: import.meta.env.DEV ? 'http://172.208.105.151' : 'http://127.0.0.1',
+  baseURL: `http://${data.url}`,
   timeout: 15000
 })
 

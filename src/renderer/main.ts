@@ -16,9 +16,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
+app.use(pinia)
 app.use(ElementPlus)
 app.use(router)
-app.use(pinia)
 app.mount('#app')
 
 // 全局注入mitts
