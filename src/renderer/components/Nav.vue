@@ -13,14 +13,20 @@
           v-for="item in planList"
           :key="item.id"
           class="navitem icon font_family icon-add"
+          :class="{ active: usePlan.$state.id === item.id }"
           :to="{
             path: `/MonitoringPlan/${item.planType}`,
             query: {
-              filters: item.filters
+              planType: item.planType,
+              filters: JSON.stringify(item.filters)
             }
           }"
+          @click="handlePlan(item)"
         >
-          {{ item.planName }}
+          <div class="flex justify-between grow">
+            {{ item.planName }}
+            <el-icon @click="deletePlan(item.id)"><Delete /></el-icon>
+          </div>
         </router-link>
       </div>
       <div class="box-2 box">
@@ -43,15 +49,20 @@
 <script setup lang="ts">
 import { ADD_DIALOG } from '@/components/dialog'
 import AddPlan from '@/views/MonitoringPlan/components/AddPlan.vue'
-import { queryAllPlan } from '@/apis'
+import { delPlan, queryAllPlan } from '@/apis'
 import { PlansRes } from '@/apis/types'
 import mitts from '@/utils/mitts'
+import usePlanStore from '@/store/common/usePlan'
+import { SUCCESS_CODE } from '@/constants'
+
+const usePlan = usePlanStore()
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const addDialog = inject(ADD_DIALOG)!
 
 onMounted(() => {
   mitts.on('updatePlanList', getPlan)
+  getPlan()
 })
 
 const show = () => {
@@ -62,18 +73,46 @@ const show = () => {
   })
 }
 
-onBeforeMount(() => {
-  getPlan()
-})
-
 const planList = ref<PlansRes[]>()
 const getPlan = async () => {
   try {
     const res = await queryAllPlan()
-    planList.value = res.data
+    if (res.code === 0) {
+      planList.value = res.data
+    } else {
+      ElMessage.warning(res.message)
+    }
   } catch (error) {
     console.log(error)
   }
+}
+
+const deletePlan = async (id: string) => {
+  if (usePlan.$state.id === id) {
+    ElMessage.warning('选中方案无法删除')
+    return
+  }
+  ElMessageBox.confirm('删除此方案?', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
+    try {
+      const res = await delPlan(id)
+      if (res.code === SUCCESS_CODE) {
+        ElMessage.success(res.message)
+        getPlan()
+      } else {
+        ElMessage.warning(res.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  })
+}
+
+const handlePlan = (item: PlansRes) => {
+  usePlan.setPlan(item)
 }
 </script>
 
@@ -138,6 +177,11 @@ const getPlan = async () => {
     font-weight: 500;
 
     &:hover {
+      border-radius: 4px;
+      background: @nav-hover;
+    }
+    &.active {
+      color: red;
       border-radius: 4px;
       background: @nav-hover;
     }

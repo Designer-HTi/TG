@@ -52,7 +52,7 @@
 <script setup lang="ts">
 import { addKeywords } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
-import useMonitoringData from '@/store/common/monitoringData'
+import { SUCCESS_CODE } from '@/constants'
 import { getAllGroupKeyword } from '@/utils'
 
 const props = defineProps<{
@@ -72,21 +72,12 @@ const keyword = ref('')
 const keywordList = ref<string[]>([])
 const inputRef = ref<HTMLElement>()
 
-const groupList = computed(() => useMonitoringData().$state.groupList)
-
 const addKeyword = async () => {
-  const keyword_data = props.selectGroup.map((v) => {
-    return {
-      channelId: v,
-      channelName: groupList.value.filter((item) => item.id === v)[0].channelName,
-      keywords: keywordList.value
-    }
-  })
   const res = await addKeywords({
-    chatId: props.chatId,
-    keyword_data
+    groupIds: props.selectGroup,
+    keywords: keywordList.value
   })
-  if (res.code === 'success') {
+  if (res.code === SUCCESS_CODE) {
     ElMessage.success('新增成功')
     emit('close', 'update')
     getAllGroupKeyword()

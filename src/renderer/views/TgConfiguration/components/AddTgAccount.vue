@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import { createUser } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 import { ElMessage } from 'element-plus'
 
 const emit = defineEmits<{
@@ -53,8 +54,8 @@ const handleBtn = async () => {
     const res = await createUser({
       chatId: chatId.value
     })
-    ElMessage.success('新增成功')
-    if (res.code === 'success') {
+    if (res.code === SUCCESS_CODE) {
+      ElMessage.success('新增成功')
       emit('close', 'update')
     }
   } catch (error) {

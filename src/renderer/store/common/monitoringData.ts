@@ -8,7 +8,18 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
   state: () => {
     return {
       monitoringData: [] as MonitoringData[],
-      groupList: [] as GroupRes[],
+      groupList: [
+        {
+          groupId: '1',
+          chatId: '1',
+          groupName: '1'
+        },
+        {
+          id: '2',
+          chatId: '2',
+          channelName: '2'
+        }
+      ] as GroupRes[],
       keywordsList: [] as string[]
     }
   },

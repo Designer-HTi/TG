@@ -39,12 +39,13 @@
 </template>
 
 <script setup lang="ts">
-import { queryKeywords, updateKeywords } from '@/apis'
+import { deleteKeywords, queryKeywords } from '@/apis'
 import { KeywordsRes } from '@/apis/types'
-import { getAllGroupKeyword } from '@/utils'
+import { SUCCESS_CODE } from '@/constants'
+// import { getAllGroupKeyword } from '@/utils'
 import { ElTable } from 'element-plus'
 const props = defineProps<{
-  chatId: string
+  chatId: number
   selectGroup: string[]
 }>()
 
@@ -63,12 +64,15 @@ watch(
 
 const tableLoading = ref(false)
 const getKeywords = async () => {
+  if (props.selectGroup.length === 0) {
+    tableData.value = []
+    return
+  }
   tableLoading.value = true
   const res = await queryKeywords({
-    chatId: props.chatId,
     groupIds: props.selectGroup
   })
-  if (res.code === 'success') {
+  if (res.code === SUCCESS_CODE) {
     tableData.value = res.data
     tableLoading.value = false
   }
@@ -80,11 +84,13 @@ const delKeyword = async (row: KeywordsRes) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    const res = await updateKeywords({
-      chatId: props.chatId,
-      keyword_data: tableData.value.filter((v) => v !== row)
-    })
-    if (res.code === 'success') {
+    const res = await deleteKeywords([
+      {
+        groupId: row.groupId,
+        keywords: row.keywords
+      }
+    ])
+    if (res.code === SUCCESS_CODE) {
       getKeywords()
       ElMessage.success('删除成功')
     }
@@ -103,16 +109,16 @@ const delKeywords = async () => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    const row = tableData.value.filter((v) => !selectionRows.includes(v))
-    const res = await updateKeywords({
-      chatId: props.chatId,
-      keyword_data: row
-    })
-    if (res.code === 'success') {
-      getKeywords()
-      ElMessage.success('删除成功')
-      getAllGroupKeyword()
-    }
+    // const row = tableData.value.filter((v) => !selectionRows.includes(v))
+    // const res = await updateKeywords({
+    //   chatId: props.chatId,
+    //   keyword_data: row
+    // })
+    // if (res.code === 'success') {
+    //   getKeywords()
+    //   ElMessage.success('删除成功')
+    //   getAllGroupKeyword()
+    // }
   })
 }
 

@@ -33,6 +33,7 @@
 <script setup lang="ts">
 import { createChannel } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 import { getAllGroupKeyword } from '@/utils'
 
 const props = defineProps<{
@@ -58,10 +59,10 @@ const handleBtn = async () => {
   try {
     const res = await createChannel({
       chatId: props.chatId,
-      urls: chatUrls.value
+      groupUrls: chatUrls.value
     })
 
-    if (res.code === 'success') {
+    if (res.code === SUCCESS_CODE) {
       ElMessage.success('新增成功')
       emit('close', 'update')
       getAllGroupKeyword()

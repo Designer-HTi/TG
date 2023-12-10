@@ -38,8 +38,9 @@ import TgAccount from './components/tgAccount.vue'
 import { deleteChannel, deleteUser } from '@/apis'
 import { ElMessageBox } from 'element-plus'
 import { getAllGroupKeyword } from '@/utils'
+import { SUCCESS_CODE } from '@/constants'
 
-const chatId = ref('')
+const chatId = ref<number>(0)
 const accountRef = ref<InstanceType<typeof TgAccount>>()
 const delAccount = async () => {
   ElMessageBox.confirm('删除所选账户?', '提示', {
@@ -47,10 +48,8 @@ const delAccount = async () => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    const res = await deleteUser({
-      chatId: chatId.value
-    })
-    if (res.code === 'success') {
+    const res = await deleteUser(chatId.value)
+    if (res.code === SUCCESS_CODE) {
       accountRef.value?.getAllUser()
       ElMessage.success('删除成功')
     }
@@ -67,9 +66,10 @@ const delGroup = async () => {
   }).then(async () => {
     const res = await deleteChannel({
       chatId: chatId.value,
-      channelIds: selectGroup.value
+      groupIds: selectGroup.value
     })
-    if (res.code === 'success') {
+    if (res.code === SUCCESS_CODE) {
+      selectGroup.value = []
       groupRef.value?.getAllGroup()
       ElMessage.success('删除成功')
       getAllGroupKeyword()

@@ -56,8 +56,8 @@
     <el-tabs v-model="activeName" type="card" class="demo-tabs">
       <el-tab-pane label="群过滤" name="group">
         <el-checkbox-group v-model="selectGroupList" class="listbox">
-          <el-checkbox v-for="item in groupList" :key="item.id" :label="item.id" border>
-            {{ item.channelName }}
+          <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupId" border>
+            {{ item.groupName }}
           </el-checkbox>
         </el-checkbox-group>
       </el-tab-pane>
@@ -68,7 +68,9 @@
       </el-tab-pane> -->
     </el-tabs>
     <div class="footer">
-      <el-button class="font_family icon-filter" @click="onClose">保存</el-button>
+      <el-button class="font_family icon-filter" @click="emits('save', selectGroupList, count)"
+        >保存</el-button
+      >
     </div>
   </el-drawer>
 </template>
@@ -76,45 +78,54 @@
 <script setup lang="ts">
 import { ElDrawer } from 'element-plus'
 import useMonitoringData from '@/store/common/monitoringData'
-import { updatePlan } from '@/apis'
+// import { updatePlan } from '@/apis'
 import { handleCopy } from '@/utils'
+// import { SUCCESS_CODE } from '@/constants'
+import usePlanStore from '@/store/common/usePlan'
 
-defineProps<{
+const usePlan = usePlanStore()
+
+const props = defineProps<{
   count: number
 }>()
 
-const route = useRoute()
-onMounted(() => {
-  console.log(route.query)
-})
+const emits = defineEmits<{
+  save: [number[], number]
+}>()
 
-const monitoringData = computed(() => useMonitoringData().$state.monitoringData)
-const groupList = computed(() => useMonitoringData().$state.groupList)
+const monitoringData = computed(() => useMonitoringData().$state.monitoringData || [])
+const groupList = computed(() => useMonitoringData().$state.groupList || [])
 // const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
+
+watch(usePlan.$state, (v) => {
+  if (
+    v.filters &&
+    v.filters[props.count] &&
+    v.filters[props.count].groupList &&
+    v.filters[props.count].groupList.length > 0
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    selectGroupList.value = v.filters![props.count].groupList.map((v) => v.id) || []
+  }
+  // selectKeywordsList.value = v.filters[props.count].keyWordsList?.map((v) => v.id)
+})
 
 const activeName = ref('group')
 
-const selectGroupList = ref<string[]>([])
-const selectKeywordsList = ref<string[]>([])
+const selectGroupList = ref<number[]>([])
+// const selectKeywordsList = ref<string[]>([])
 
 const showDrawer = ref(false)
 
 const drawerRef = ref<InstanceType<typeof ElDrawer>>()
-const onClose = async () => {
-  const res = await updatePlan({
-    plan_id: '1',
-    filters: [
-      {
-        group: selectGroupList.value,
-        keywords: selectKeywordsList.value
-      }
-    ]
-  })
-  if (res.code === 'success') {
-    ElMessage.success('保存成功')
-    // drawerRef.value?.close()
-  }
+
+const close = () => {
+  showDrawer.value = false
 }
+
+defineExpose({
+  close
+})
 </script>
 
 <style scoped lang="less">

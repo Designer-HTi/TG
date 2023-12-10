@@ -8,8 +8,8 @@
         v-for="item in userList"
         :key="item.chatId"
         class="w-full accountBox"
-        :class="{ active: chatId === item.chatId }"
-        @click="chatId = item.chatId"
+        :class="{ active: chatId === item.id }"
+        @click="chatId = item.id"
       >
         {{ item.chatId }}
       </div>
@@ -21,9 +21,10 @@
 import { queryAllUser } from '@/apis'
 import { UserRes } from '@/apis/types'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 
 const props = defineProps<{
-  chatId: string
+  chatId: number
 }>()
 
 const emit = defineEmits<{
@@ -43,7 +44,7 @@ const userLoading = ref(false)
 const getAllUser = async () => {
   userLoading.value = true
   const res = await queryAllUser()
-  if (res.code === 'success') {
+  if (res.code === SUCCESS_CODE) {
     userList.value = res.data.length > 0 ? res.data : []
     userLoading.value = false
   }

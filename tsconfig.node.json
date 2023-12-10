@@ -3,7 +3,7 @@
   "include": ["electron.vite.config.*", "src/main/*", "src/preload/*", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "compilerOptions": {
     "composite": true,
-    "types": ["electron-vite/node"],
+    "types": ["electron-vite/node", "pinia-plugin-persist"],
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
