@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-  scrollBehavior(to, from) {
+  scrollBehavior() {
     return {
       left: 0,
       top: 0

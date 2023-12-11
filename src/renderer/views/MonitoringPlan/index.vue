@@ -1,5 +1,5 @@
 <template>
-  <div v-if="planCount !== 0" class="flex layout">
+  <div v-if="planCount !== 0" :key="usePlan.$state.id" class="flex layout">
     <DetailListVue
       v-for="i in planCount"
       :ref="(ref) => detailListRef && (detailListRef[i] = ref)"

@@ -1,5 +1,4 @@
 import { MonitoringData } from '@/store/types/interface'
-import { ElMessage } from 'element-plus'
 
 export type Callback = (e: Event) => void
 export type MessageCallback<RT> = (e: RT) => void

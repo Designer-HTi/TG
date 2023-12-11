@@ -9,12 +9,15 @@ import { MonitoringData } from './store/types/interface'
 import useConfig from './store/common/config'
 import { io } from 'socket.io-client'
 
+const time = ref(false)
+
 const config = useConfig()
 onBeforeMount(async () => {
   const data = await window.getConfig()
   config.setUrl(data.url)
 
-  const socket = io('http://43.134.107.71:10002/message')
+  const socket = io(data.wsUrl)
+  // const socket = io('http://43.134.107.71:10002/message')
 
   socket.connect()
 
@@ -41,13 +44,23 @@ onBeforeMount(async () => {
   })
 
   getAllGroupKeyword()
+
+  time.value = new Date().getTime() > 1706630400000
 })
 </script>
 
 <template>
   <DialogProvide>
-    <Layout />
+    <div v-if="time" class="flag">试用已到期</div>
+    <Layout v-else />
   </DialogProvide>
 </template>
 
-<style lang="less"></style>
+<style lang="less">
+.flag {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  line-height: 100vh;
+}
+</style>

@@ -9,6 +9,7 @@ declare global {
     }
     getConfig: () => Promise<{
       url: string
+      wsUrl: string
     }>
   }
 }

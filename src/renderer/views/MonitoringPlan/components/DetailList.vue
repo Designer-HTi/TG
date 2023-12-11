@@ -8,41 +8,41 @@
       </div>
     </div>
     <div class="list">
-      <transition-group name="el-zoom-in-center">
-        <div v-for="item in monitoringData" :key="item.id" class="descriptions">
-          <div class="descriptions__cell_group">
-            <div class="descriptions__cell">
-              <div class="descriptions_label">命中词</div>
-              <div class="descriptions_content">{{ item.keyWords.join('，') }}</div>
-            </div>
-            <div class="time">{{ item.createTime }}</div>
-          </div>
+      <!-- <transition-group name="el-zoom-in-center"> -->
+      <div v-for="item in monitoringData" :key="item.id" class="descriptions">
+        <div class="descriptions__cell_group">
           <div class="descriptions__cell">
-            <div class="descriptions_label">群名</div>
-            <div class="descriptions_content">{{ item.groupName }}</div>
+            <div class="descriptions_label">命中词</div>
+            <div class="descriptions_content">{{ item.keyWords.join('，') }}</div>
           </div>
-          <div class="descriptions__cell">
-            <div class="descriptions_label">发言人</div>
-            <div class="descriptions_content">{{ item.userName }}</div>
-          </div>
-          <hr />
-          <div class="descriptions__cell column">
-            <div class="descriptions_label">言论</div>
-            <div class="descriptions_content box" v-html="item.message"></div>
-          </div>
-          <div class="button">
-            <el-button
-              class="font_family icon-Frame"
-              @click="
-                handleCopy(
-                  `用户：${item.userName}；用户ID：${item.userId}；时间：${item.createTime}；群名：${item.groupName}；言论：${item.message}；`
-                )
-              "
-              >复制举证
-            </el-button>
-          </div>
+          <div class="time">{{ item.createTime }}</div>
         </div>
-      </transition-group>
+        <div class="descriptions__cell">
+          <div class="descriptions_label">群名</div>
+          <div class="descriptions_content">{{ item.groupName }}</div>
+        </div>
+        <div class="descriptions__cell">
+          <div class="descriptions_label">发言人</div>
+          <div class="descriptions_content">{{ item.userName }}</div>
+        </div>
+        <hr />
+        <div class="descriptions__cell column">
+          <div class="descriptions_label">言论</div>
+          <div class="descriptions_content box" v-html="item.message"></div>
+        </div>
+        <div class="button">
+          <el-button
+            class="font_family icon-Frame"
+            @click="
+              handleCopy(
+                `用户：${item.userName}；用户ID：${item.userId}；时间：${item.createTime}；群名：${item.groupName}；言论：${item.message}；`
+              )
+            "
+            >复制举证
+          </el-button>
+        </div>
+      </div>
+      <!-- </transition-group> -->
     </div>
   </section>
   <el-drawer
@@ -106,14 +106,22 @@ onMounted(() => {
   }
 })
 
+// watch(usePlan.$state, (v) => {
+//   if (
+//     v.filters &&
+//     v.filters[props.count - 1] &&
+//     v.filters[props.count - 1].groupList &&
+//     v.filters[props.count - 1].groupList.length > 0
+//   ) {
+//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+//     selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
+//   }
+// })
+
 const selectGroupList = ref<number[]>([])
 // const selectKeywordsList = ref<string[]>([])
 
 const monitoringData = computed(() => {
-  const monitoringData = useMonitoringData().$state.monitoringData
-  console.log(1111111, monitoringData)
-  console.log(2222222, selectGroupList.value)
-
   return useMonitoringData().$state.monitoringData.filter((v) =>
     selectGroupList.value.includes(v.groupId)
   )

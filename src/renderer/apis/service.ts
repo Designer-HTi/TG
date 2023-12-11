@@ -3,8 +3,8 @@ import { ElMessage } from 'element-plus'
 
 const data = await window.getConfig()
 const service = axios.create({
-  baseURL: `http://127.0.0.1:6060/aps`,
-  // baseURL: `${data.url}/aps`,
+  // baseURL: `http://127.0.0.1:6060/aps`,
+  baseURL: data.url,
   timeout: 15000
 })
 
