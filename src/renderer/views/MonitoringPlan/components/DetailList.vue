@@ -22,8 +22,8 @@
             <div class="descriptions_content">{{ item.groupName }}</div>
           </div>
           <div class="descriptions__cell">
-            <div class="descriptions_label">发言人ID</div>
-            <div class="descriptions_content">{{ item.userId }}</div>
+            <div class="descriptions_label">发言人</div>
+            <div class="descriptions_content">{{ item.userName }}</div>
           </div>
           <hr />
           <div class="descriptions__cell column">
@@ -56,7 +56,7 @@
     <el-tabs v-model="activeName" type="card" class="demo-tabs">
       <el-tab-pane label="群过滤" name="group">
         <el-checkbox-group v-model="selectGroupList" class="listbox">
-          <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupId" border>
+          <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
             {{ item.groupName }}
           </el-checkbox>
         </el-checkbox-group>
@@ -93,27 +93,35 @@ const emits = defineEmits<{
   save: [number[], number]
 }>()
 
-const monitoringData = computed(() => useMonitoringData().$state.monitoringData || [])
-const groupList = computed(() => useMonitoringData().$state.groupList || [])
-// const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
-
-watch(usePlan.$state, (v) => {
+onMounted(() => {
+  const v = usePlan.$state
   if (
     v.filters &&
-    v.filters[props.count] &&
-    v.filters[props.count].groupList &&
-    v.filters[props.count].groupList.length > 0
+    v.filters[props.count - 1] &&
+    v.filters[props.count - 1].groupList &&
+    v.filters[props.count - 1].groupList.length > 0
   ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    selectGroupList.value = v.filters![props.count].groupList.map((v) => v.id) || []
+    selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
   }
-  // selectKeywordsList.value = v.filters[props.count].keyWordsList?.map((v) => v.id)
 })
-
-const activeName = ref('group')
 
 const selectGroupList = ref<number[]>([])
 // const selectKeywordsList = ref<string[]>([])
+
+const monitoringData = computed(() => {
+  const monitoringData = useMonitoringData().$state.monitoringData
+  console.log(1111111, monitoringData)
+  console.log(2222222, selectGroupList.value)
+
+  return useMonitoringData().$state.monitoringData.filter((v) =>
+    selectGroupList.value.includes(v.groupId)
+  )
+})
+const groupList = computed(() => useMonitoringData().$state.groupList || [])
+// const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
+
+const activeName = ref('group')
 
 const showDrawer = ref(false)
 

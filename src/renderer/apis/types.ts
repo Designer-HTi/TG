@@ -40,7 +40,7 @@ export interface CreateChannelReq {
 }
 
 export interface UserRes {
-  chatId: string
+  chatId: number
   id: number
   createTime: string
 }
@@ -65,15 +65,20 @@ export interface KeywordsReq {
 }
 
 export interface AddKeywordsReq {
-  groupId: string
+  groupIds: string[]
   keywords: string[]
 }
 
 export interface KeywordsRes {
   keywords: string[]
-  groupId: string
+  groupId: number
 }
 
 export interface GroupListReq {
   chatIds: number[]
+}
+
+export interface DelKeywordsReq {
+  groupId: number
+  keywords: string[]
 }

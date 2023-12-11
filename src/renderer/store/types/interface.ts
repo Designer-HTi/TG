@@ -3,7 +3,7 @@
 export interface MonitoringData {
   id: string
   chatId: string
-  groupId: string
+  groupId: number
   groupName: string
   createTime: string
   keyWords: string[]

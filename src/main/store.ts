@@ -3,6 +3,7 @@ import Store from 'electron-store'
 // 定义存储的数据类型
 interface AppSettings {
   url: string
+  wsUrl: string
   // 添加其他需要存储的属性
 }
 
@@ -12,7 +13,8 @@ class ElectronStoreWrapper {
   constructor() {
     // 在这里添加你的默认设置
     const defaults: AppSettings = {
-      url: '127.0.0.1:3399'
+      url: 'http://127.0.0.1',
+      wsUrl: 'http://127.0.0.1/message'
       // 添加其他默认设置
     }
 

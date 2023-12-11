@@ -93,6 +93,8 @@ const delKeyword = async (row: KeywordsRes) => {
     if (res.code === SUCCESS_CODE) {
       getKeywords()
       ElMessage.success('删除成功')
+    } else {
+      ElMessage.warning(res.message)
     }
   })
 }
@@ -109,16 +111,19 @@ const delKeywords = async () => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    // const row = tableData.value.filter((v) => !selectionRows.includes(v))
-    // const res = await updateKeywords({
-    //   chatId: props.chatId,
-    //   keyword_data: row
-    // })
-    // if (res.code === 'success') {
-    //   getKeywords()
-    //   ElMessage.success('删除成功')
-    //   getAllGroupKeyword()
-    // }
+    const params = selectionRows.map((v) => {
+      return {
+        groupId: v.groupId,
+        keywords: v.keywords
+      }
+    })
+    const res = await deleteKeywords(params)
+    if (res.code === SUCCESS_CODE) {
+      getKeywords()
+      ElMessage.success('删除成功')
+    } else {
+      ElMessage.warning(res.message)
+    }
   })
 }
 

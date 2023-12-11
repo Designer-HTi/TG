@@ -81,6 +81,8 @@ const addKeyword = async () => {
     ElMessage.success('新增成功')
     emit('close', 'update')
     getAllGroupKeyword()
+  } else {
+    ElMessage.warning(res.message)
   }
 }
 

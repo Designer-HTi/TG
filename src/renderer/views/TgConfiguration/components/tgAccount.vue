@@ -8,8 +8,8 @@
         v-for="item in userList"
         :key="item.chatId"
         class="w-full accountBox"
-        :class="{ active: chatId === item.id }"
-        @click="chatId = item.id"
+        :class="{ active: chatId === item.chatId }"
+        @click="chatId = item.chatId"
       >
         {{ item.chatId }}
       </div>

@@ -60,9 +60,10 @@ const usePlan = usePlanStore()
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const addDialog = inject(ADD_DIALOG)!
 
-onMounted(() => {
+onMounted(async () => {
   mitts.on('updatePlanList', getPlan)
-  getPlan()
+  await getPlan()
+  usePlan.setPlan(planList[0])
 })
 
 const show = () => {
@@ -87,7 +88,7 @@ const getPlan = async () => {
   }
 }
 
-const deletePlan = async (id: string) => {
+const deletePlan = async (id: number) => {
   if (usePlan.$state.id === id) {
     ElMessage.warning('选中方案无法删除')
     return

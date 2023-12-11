@@ -57,6 +57,8 @@ const handleBtn = async () => {
     if (res.code === SUCCESS_CODE) {
       ElMessage.success('新增成功')
       emit('close', 'update')
+    } else {
+      ElMessage.warning(res.message)
     }
   } catch (error) {
     console.log(error)

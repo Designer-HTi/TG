@@ -10,14 +10,9 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
       monitoringData: [] as MonitoringData[],
       groupList: [
         {
-          groupId: '1',
-          chatId: '1',
-          groupName: '1'
-        },
-        {
-          id: '2',
-          chatId: '2',
-          channelName: '2'
+          groupId: '',
+          chatId: '',
+          groupName: ''
         }
       ] as GroupRes[],
       keywordsList: [] as string[]

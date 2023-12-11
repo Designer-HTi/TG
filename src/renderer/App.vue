@@ -14,11 +14,6 @@ onBeforeMount(async () => {
   const data = await window.getConfig()
   config.setUrl(data.url)
 
-  // const wbSocket = new Socket<null, string>({ url: `ws://${config.$state.url}/websocket` })
-  // wbSocket.onmessage((data: MonitoringData) => {
-  //   useMonitoringData().pushMonitoringData({ ...data, id: uuidv4() })
-  // })
-
   const socket = io('http://43.134.107.71:10002/message')
 
   socket.connect()
@@ -32,6 +27,8 @@ onBeforeMount(async () => {
   })
 
   socket.on('message', (...args: MonitoringData[]) => {
+    console.log('message----', args)
+
     const data = args[0]
     data.keyWords.forEach((v) => {
       data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)

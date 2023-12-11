@@ -10,7 +10,8 @@ import {
   KeywordsReq,
   AddKeywordsReq,
   KeywordsRes,
-  GroupListReq
+  GroupListReq,
+  DelKeywordsReq
 } from './types'
 import service from './service'
 
@@ -25,15 +26,13 @@ export function createPlan(params: CreatePlanReq) {
 }
 
 // 删除方案
-export function delPlan(id: string) {
+export function delPlan(id: number) {
   return service.delete<void, ApiResponse<null>>(`/plan/${id}`)
 }
 
 // 修改方案
 export function updatePlan(id: number, params: PlansRes) {
-  return service.delete<void, ApiResponse<null>>(`/plan/${id}`, {
-    data: params
-  })
+  return service.put<void, ApiResponse<null>>(`/plan/${id}`, params)
 }
 
 // 获取所有账号
@@ -79,7 +78,7 @@ export function addKeywords(params: AddKeywordsReq) {
 }
 
 // 删除关键词
-export function deleteKeywords(params: AddKeywordsReq[]) {
+export function deleteKeywords(params: DelKeywordsReq[]) {
   return service.post<void, ApiResponse<null>>('/group/keyword/remove', params)
 }
 

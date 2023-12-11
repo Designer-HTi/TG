@@ -66,6 +66,8 @@ const handleBtn = async () => {
       ElMessage.success('新增成功')
       emit('close', 'update')
       getAllGroupKeyword()
+    } else {
+      ElMessage.warning(res.message)
     }
   } catch (error) {
     console.log(error)

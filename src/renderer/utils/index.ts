@@ -33,7 +33,7 @@ export const getAllGroupKeyword = async () => {
 
 export const handleCopy = (copy_text: string) => {
   const input_dom = document.createElement('input') //创建input元素
-  input_dom.value = copy_text //添加需要复制的内容到value属性
+  input_dom.value = copy_text.replaceAll('<b style="color: #eb5757">', '').replaceAll('</b>', '') //添加需要复制的内容到value属性
   document.body.appendChild(input_dom) //向页面底部追加输入框
   input_dom.select() //选择input元素
   document.execCommand('Copy') //执行复制命令

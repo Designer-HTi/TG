@@ -1,5 +1,5 @@
 <template>
-  <div v-if="planCount !== 0" class="flex">
+  <div v-if="planCount !== 0" class="flex layout">
     <DetailListVue
       v-for="i in planCount"
       :ref="(ref) => detailListRef && (detailListRef[i] = ref)"
@@ -22,14 +22,9 @@ import usePlanStore from '@/store/common/usePlan'
 import { updatePlan } from '@/apis'
 import { SUCCESS_CODE } from '@/constants'
 
-// const route = useRoute()
 const usePlan = usePlanStore()
 
-const planCount = ref(0)
-
-watch(usePlan.$state, (v) => {
-  planCount.value = Number(v.planType)
-})
+const planCount = computed(() => Number(usePlan.$state.planType))
 
 const addDialog = inject(ADD_DIALOG)
 
@@ -44,6 +39,15 @@ const show = () => {
 const detailListRef = ref<(Element | ComponentPublicInstance | null)[]>()
 const save = async (data: number[], i: number) => {
   const planData = usePlan.$state
+  if (!planData.filters) {
+    planData.filters = []
+  }
+  if (!planData.filters[i - 1]) {
+    planData.filters[i - 1] = {
+      groupList: [],
+      keyWordsList: []
+    }
+  }
   planData.filters[i - 1].groupList = data.map((v) => {
     return {
       accountId: '',
@@ -52,14 +56,23 @@ const save = async (data: number[], i: number) => {
   })
   const res = await updatePlan(usePlan.$state.id, planData)
   if (res.code === SUCCESS_CODE) {
+    usePlan.setPlan(planData)
     ElMessage.success('保存成功')
-    // detailListRef.value?.[i].close()
+  } else {
+    ElMessage.warning(res.message)
   }
 }
 </script>
 
 <style scoped lang="less">
+.layout {
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+}
 .content {
+  display: flex;
   flex-direction: column;
   align-items: center;
 
