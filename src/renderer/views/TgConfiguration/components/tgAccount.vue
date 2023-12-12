@@ -11,7 +11,7 @@
         :class="{ active: chatId === item.chatId }"
         @click="chatId = item.chatId"
       >
-        {{ item.chatId }}
+        {{ item.nickname }}
       </div>
     </div>
   </div>

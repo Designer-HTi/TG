@@ -51,7 +51,7 @@
     <div class="filterTitle">群过滤</div>
     <el-checkbox-group v-model="selectGroupList" class="listbox">
       <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
-        {{ item.groupName }}
+        {{ item.groupNickname }}
       </el-checkbox>
     </el-checkbox-group>
     <!-- </el-tab-pane> -->

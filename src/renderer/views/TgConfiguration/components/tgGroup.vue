@@ -18,7 +18,7 @@
           :key="item.groupId"
           class="w-full"
           :label="item.groupId"
-          >{{ item.groupName }}</Checkbox
+          >{{ item.groupNickname }}</Checkbox
         >
       </el-checkbox-group>
     </div>

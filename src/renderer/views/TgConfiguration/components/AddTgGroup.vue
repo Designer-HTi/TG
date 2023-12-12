@@ -2,15 +2,29 @@
   <div class="flex-col items-center gap-8 !px-20">
     <p class="link">请在下方输入框输入你需要监测的群链接</p>
 
-    <el-input ref="inputRef" v-model="chatUrl" class="w-280px" maxlength="100">
+    <el-input
+      ref="inputRef"
+      v-model="chatUrl.nickname"
+      class="w-280px"
+      maxlength="100"
+      placeholder="请输入群名"
+    ></el-input>
+    <el-input
+      ref="inputRef"
+      v-model="chatUrl.url"
+      class="w-280px"
+      maxlength="100"
+      placeholder="请输入群地址"
+    >
       <template #append>
         <el-button
           link
           class="icon font_family icon-add"
           @click="
             () => {
-              chatUrls.push(chatUrl)
-              chatUrl = ''
+              chatUrls.push(JSON.parse(JSON.stringify(chatUrl)))
+              chatUrl.url = ''
+              chatUrl.nickname = ''
               inputRef?.focus()
             }
           "
@@ -19,7 +33,7 @@
     </el-input>
 
     <div class="w-280px urlList">
-      <p v-for="v in chatUrls" :key="v">{{ v }}</p>
+      <p v-for="v in chatUrls" :key="v.url">{{ v.nickname + ': ' + v.url }}</p>
     </div>
   </div>
 
@@ -48,8 +62,11 @@ onMounted(() => {
   inputRef.value?.focus()
 })
 
-const chatUrl = ref('')
-const chatUrls = ref<string[]>([])
+const chatUrl = reactive({
+  url: '',
+  nickname: ''
+})
+const chatUrls = ref<(typeof chatUrl)[]>([])
 const inputRef = ref<HTMLElement>()
 
 const handleBtn = async () => {

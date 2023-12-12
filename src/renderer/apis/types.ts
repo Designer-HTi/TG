@@ -36,19 +36,24 @@ export interface CreatePlanReq {
 
 export interface CreateChannelReq {
   chatId: string
-  groupUrls: string[]
+  groupUrls: {
+    url: string
+    nickname: string
+  }[]
 }
 
 export interface UserRes {
   chatId: number
   id: number
   createTime: string
+  nickname: string
 }
 
 export interface GroupRes {
   chatId: string
   groupId: string
   groupName: string
+  groupNickname: string
 }
 
 export interface ChannelReq {
@@ -58,6 +63,7 @@ export interface ChannelReq {
 
 export interface CreateUserReq {
   chatId: string
+  nickname: string
 }
 
 export interface KeywordsReq {

@@ -13,8 +13,8 @@ class ElectronStoreWrapper {
   constructor() {
     // 在这里添加你的默认设置
     const defaults: AppSettings = {
-      url: 'http://127.0.0.1',
-      wsUrl: 'http://127.0.0.1/message'
+      url: 'http://127.0.0.1:10002',
+      wsUrl: 'http://127.0.0.1:10002/message'
       // 添加其他默认设置
     }
 

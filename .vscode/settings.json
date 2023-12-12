@@ -32,6 +32,6 @@
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "editor.suggestSelection": "first",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   } // 两个选择器中是否换行
 }

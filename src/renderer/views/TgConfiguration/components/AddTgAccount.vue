@@ -10,7 +10,20 @@
       <el-button link class="icon font_family icon-add"></el-button>
     </div>
 
-    <el-input v-else v-model="chatId" class="w-280px"></el-input>
+    <el-input
+      v-if="active === 2"
+      v-model="chatId"
+      class="w-280px"
+      placeholder="请输入chatId"
+      maxlength="200"
+    ></el-input>
+    <el-input
+      v-if="active === 2"
+      v-model="nickname"
+      class="w-280px"
+      placeholder="请输入TG账户名"
+      maxlength="100"
+    ></el-input>
 
     <a v-if="active === 1" class="link" url="https://www.bilibili.com/"
       >点我打开链接添加TG智能监测机器人</a
@@ -45,6 +58,7 @@ const emit = defineEmits<{
 const active = ref(1)
 
 const chatId = ref('')
+const nickname = ref('')
 
 const next = () => {
   active.value = active.value === 1 ? 2 : 1
@@ -52,7 +66,8 @@ const next = () => {
 const handleBtn = async () => {
   try {
     const res = await createUser({
-      chatId: chatId.value
+      chatId: chatId.value,
+      nickname: nickname.value
     })
     if (res.code === SUCCESS_CODE) {
       ElMessage.success('新增成功')
