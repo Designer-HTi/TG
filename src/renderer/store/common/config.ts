@@ -1,16 +1,19 @@
 import { defineStore } from 'pinia'
 import NAMES from '../types'
+import { ConfigData } from '../types/interface'
 
 const useConfig = defineStore(NAMES.CONFIG, {
   state: () => {
     return {
-      url: ''
-    }
+      url: '',
+      wsUrl: '',
+      maxMsg: 0
+    } as ConfigData
   },
   getters: {},
   actions: {
-    setUrl(data: string) {
-      this.$state.url = data
+    setUrl(data: ConfigData) {
+      this.$state = data
     }
   }
 })

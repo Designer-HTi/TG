@@ -4,6 +4,7 @@ import Store from 'electron-store'
 interface AppSettings {
   url: string
   wsUrl: string
+  maxMsg: number
   // 添加其他需要存储的属性
 }
 
@@ -14,7 +15,8 @@ class ElectronStoreWrapper {
     // 在这里添加你的默认设置
     const defaults: AppSettings = {
       url: 'http://127.0.0.1:10002',
-      wsUrl: 'http://127.0.0.1:10002/message'
+      wsUrl: 'http://127.0.0.1:10002/message',
+      maxMsg: 200
       // 添加其他默认设置
     }
 

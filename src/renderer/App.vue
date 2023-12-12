@@ -12,9 +12,11 @@ import { io } from 'socket.io-client'
 const time = ref(false)
 
 const config = useConfig()
+const monitoringData = useMonitoringData()
 onBeforeMount(async () => {
   const data = await window.getConfig()
-  config.setUrl(data.url)
+  config.setUrl(data)
+  monitoringData.setMaxMsg(data.maxMsg)
 
   const socket = io(data.wsUrl)
   // const socket = io('http://43.134.107.71:10002/message')
@@ -30,17 +32,11 @@ onBeforeMount(async () => {
   })
 
   socket.on('message', (...args: MonitoringData[]) => {
-    console.log('message----', args)
-
     const data = args[0]
     data.keyWords.forEach((v) => {
       data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
     })
-    useMonitoringData().pushMonitoringData(data)
-  })
-
-  socket.on('my_response', (...args) => {
-    console.log(args)
+    monitoringData.pushMonitoringData(data)
   })
 
   getAllGroupKeyword()

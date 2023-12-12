@@ -11,3 +11,9 @@ export interface MonitoringData {
   userId: string
   message: string
 }
+
+export interface ConfigData {
+  url: string
+  wsUrl: string
+  maxMsg: number
+}

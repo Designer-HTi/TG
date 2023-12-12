@@ -16,15 +16,16 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
           groupNickname: ''
         }
       ] as GroupRes[],
-      keywordsList: [] as string[]
+      keywordsList: [] as string[],
+      maxMsg: 100
     }
   },
   getters: {},
   actions: {
     pushMonitoringData(data: MonitoringData) {
       this.$state.monitoringData.unshift(data)
-      if (this.$state.monitoringData.length >= 50) {
-        this.$state.monitoringData.length = 50
+      if (this.$state.monitoringData.length >= this.$state.maxMsg) {
+        this.$state.monitoringData.length = this.$state.maxMsg
       }
     },
     setGroupList(data: GroupRes[]) {
@@ -32,6 +33,9 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
     },
     setKeywordsList(data: string[]) {
       this.$state.keywordsList = data
+    },
+    setMaxMsg(n: number) {
+      this.$state.maxMsg = n
     }
   }
 })
