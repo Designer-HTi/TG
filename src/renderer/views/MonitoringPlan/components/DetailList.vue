@@ -45,28 +45,22 @@
       <!-- </transition-group> -->
     </div>
   </section>
-  <el-drawer
-    ref="drawerRef"
-    v-model="showDrawer"
-    title="看板过滤"
-    :with-header="false"
-    size="300"
-    append-to-body
-  >
-    <el-tabs v-model="activeName" type="card" class="demo-tabs">
-      <el-tab-pane label="群过滤" name="group">
-        <el-checkbox-group v-model="selectGroupList" class="listbox">
-          <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
-            {{ item.groupName }}
-          </el-checkbox>
-        </el-checkbox-group>
-      </el-tab-pane>
-      <!-- <el-tab-pane label="关键词过滤" name="keyword">
+  <el-drawer ref="drawerRef" v-model="showDrawer" title="看板过滤" :with-header="false" size="300">
+    <!-- <el-tabs v-model="activeName" type="card" class="grow flex flex-col">
+      <el-tab-pane label="群过滤" name="group" class="h-full overflow-hidden"> -->
+    <div class="filterTitle">群过滤</div>
+    <el-checkbox-group v-model="selectGroupList" class="listbox">
+      <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
+        {{ item.groupName }}
+      </el-checkbox>
+    </el-checkbox-group>
+    <!-- </el-tab-pane> -->
+    <!-- <el-tab-pane label="关键词过滤" name="keyword">
         <el-checkbox-group v-model="selectKeywordsList" class="listbox">
           <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
         </el-checkbox-group>
       </el-tab-pane> -->
-    </el-tabs>
+    <!-- </el-tabs> -->
     <div class="footer">
       <el-button class="font_family icon-filter" @click="emits('save', selectGroupList, count)"
         >保存</el-button
@@ -129,7 +123,7 @@ const monitoringData = computed(() => {
 const groupList = computed(() => useMonitoringData().$state.groupList || [])
 // const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
 
-const activeName = ref('group')
+// const activeName = ref('group')
 
 const showDrawer = ref(false)
 
@@ -253,7 +247,10 @@ section {
 .listbox {
   display: flex;
   flex-direction: column;
-  margin-top: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+  overflow: auto;
 }
 .footer {
   display: flex;
@@ -269,5 +266,17 @@ section {
     height: 1px;
     border-bottom: 1px solid @border-hr;
   }
+}
+:deep(.el-tabs__content) {
+  flex: 1;
+  overflow: hidden;
+}
+.filterTitle {
+  padding: 5px 10px;
+  background-color: #303236;
+  border-radius: 4px;
+  border: 1px solid #3c3f44 !important;
+  color: @primary;
+  text-align: center;
 }
 </style>

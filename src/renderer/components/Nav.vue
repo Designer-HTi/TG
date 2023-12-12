@@ -12,7 +12,7 @@
         <router-link
           v-for="item in planList"
           :key="item.id"
-          class="navitem icon font_family icon-add"
+          class="navitem"
           :class="{ active: usePlan.$state.id === item.id }"
           :to="{
             path: `/MonitoringPlan/${item.planType}`,
@@ -24,7 +24,11 @@
           @click="handlePlan(item)"
         >
           <div class="flex justify-between grow">
-            {{ item.planName }}
+            <div class="flex items-center gap-2px">
+              <el-icon><Memo /></el-icon>
+              {{ item.planName }}
+            </div>
+
             <el-icon @click="deletePlan(item.id)"><Delete /></el-icon>
           </div>
         </router-link>
@@ -182,7 +186,7 @@ const handlePlan = (item: PlansRes) => {
       background: @nav-hover;
     }
     &.active {
-      color: red;
+      // color: red;
       border-radius: 4px;
       background: @nav-hover;
     }

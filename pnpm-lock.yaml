@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 dependencies:
   '@electron-toolkit/preload':
     specifier: ^2.0.0
@@ -6493,3 +6489,7 @@ packages:
     name: yallist
     version: 3.1.1
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
