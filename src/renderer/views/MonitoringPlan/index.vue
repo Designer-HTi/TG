@@ -1,5 +1,9 @@
 <template>
-  <div v-if="planCount !== 0" :key="usePlan.$state.id" class="flex layout">
+  <div v-if="planCount == 0" class="content">
+    <div class="img"></div>
+    <div>暂无无监测方案，<a @click="show"> 请点我添加</a>监测方案</div>
+  </div>
+  <div v-else :key="usePlan.$state.id" class="flex layout">
     <DetailListVue
       v-for="i in planCount"
       :ref="(ref) => detailListRef && (detailListRef[i] = ref)"
@@ -7,10 +11,6 @@
       :count="i"
       @save="save"
     />
-  </div>
-  <div v-else class="content">
-    <div class="img"></div>
-    <div>暂无无监测方案，<a @click="show"> 请点我添加</a>监测方案</div>
   </div>
 </template>
 

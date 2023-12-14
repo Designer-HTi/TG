@@ -9,7 +9,7 @@ const usePlanStore = defineStore(NAMES.USE_PLAN, {
       filters: {} as PlanFilters[],
       id: 0,
       planName: '',
-      planType: ''
+      planType: '0'
     }
   },
   getters: {},
