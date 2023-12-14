@@ -26,11 +26,12 @@ const setWindowSize = (type: string) => {
 <style scoped lang="less">
 .header {
   display: flex;
-  height: 64px;
+  height: 60px;
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
   border-bottom: 1px solid @border-hr;
+  overflow: hidden;
 
   .left {
     display: flex;

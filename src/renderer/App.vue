@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Layout from '@/views/Layout/index.vue'
 import DialogProvide from '@/components/dialog/index.vue'
+import Tip from '@/components/Tip.vue'
 import { getAllGroupKeyword } from './utils'
 import useMonitoringData from '@/store/common/monitoringData'
 // import Socket from './utils/websocket'
@@ -37,6 +38,15 @@ onBeforeMount(async () => {
       data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
     })
     monitoringData.pushMonitoringData(data)
+    // 消息通知
+    const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
+    // 触发播放
+    warningAudioDom?.play()
+    ElNotification({
+      title: data.groupName,
+      dangerouslyUseHTMLString: true,
+      message: h(Tip, { data })
+    })
   })
 
   getAllGroupKeyword()
@@ -50,6 +60,7 @@ onBeforeMount(async () => {
     <div v-if="time" class="flag">试用已到期</div>
     <Layout v-else />
   </DialogProvide>
+  <audio id="tipAudio" src="./assets/mp3/bo.mp3" controls hidden="true"></audio>
 </template>
 
 <style lang="less">

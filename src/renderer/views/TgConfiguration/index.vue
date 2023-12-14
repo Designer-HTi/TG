@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex">
+  <div class="grow flex">
     <TgColumSlot class="flex-1/5" @handle-btn="delAccount">
       <TgAccount ref="accountRef" v-model:chatId="chatId" @handle-btn="addAccount" />
     </TgColumSlot>

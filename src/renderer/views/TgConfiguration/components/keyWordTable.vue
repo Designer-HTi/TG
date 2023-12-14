@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-col h-full gap-10px">
+  <div class="flex flex-col h-full gap-10px overflow-hidden">
     <div class="flex justify-between head">
       <div class="flex items-center gap-2">
         <span>关键词</span>
@@ -8,13 +8,8 @@
         <span>操作</span>
       </div>
     </div>
-    <div class="grow">
-      <el-table
-        ref="tableRef"
-        v-loading="tableLoading"
-        :data="tableData"
-        style="width: 100%; height: 100%"
-      >
+    <div class="grow overflow-hidden">
+      <el-table ref="tableRef" v-loading="tableLoading" :data="tableData" height="100%">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="date" label="全部" min-width="180">
           <template #default="scope">
@@ -30,7 +25,6 @@
             <el-button link type="danger" size="small" @click="delKeyword(scope.row)"
               >删除</el-button
             >
-            <!-- <el-button link type="primary" size="small">新增</el-button> -->
           </template>
         </el-table-column>
       </el-table>
