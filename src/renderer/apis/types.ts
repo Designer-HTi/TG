@@ -21,7 +21,7 @@ export interface GroupList {
 }
 export interface KeyWordsList {
   groupId: string
-  id: number
+  id: string
 }
 
 export interface UpdatePlanReq {

@@ -15,7 +15,7 @@ const usePlanStore = defineStore(NAMES.USE_PLAN, {
   getters: {},
   actions: {
     setPlan(data: PlansRes) {
-      this.$state = data
+      this.$state = { ...data }
     }
   }
 })

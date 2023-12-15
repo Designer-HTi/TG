@@ -21,6 +21,7 @@ import AddPlan from './components/AddPlan.vue'
 import usePlanStore from '@/store/common/usePlan'
 import { updatePlan } from '@/apis'
 import { SUCCESS_CODE } from '@/constants'
+import mitts from '@/utils/mitts'
 
 const usePlan = usePlanStore()
 
@@ -37,7 +38,7 @@ const show = () => {
 }
 
 const detailListRef = ref<(Element | ComponentPublicInstance | null)[]>()
-const save = async (data: number[], i: number) => {
+const save = async (data: string[], i: number) => {
   const planData = usePlan.$state
   if (!planData.filters) {
     planData.filters = []
@@ -48,14 +49,15 @@ const save = async (data: number[], i: number) => {
       keyWordsList: []
     }
   }
-  planData.filters[i - 1].groupList = data.map((v) => {
+  planData.filters[i - 1].keyWordsList = data.map((v) => {
     return {
-      accountId: '',
+      groupId: '',
       id: v
     }
   })
   const res = await updatePlan(usePlan.$state.id, planData)
   if (res.code === SUCCESS_CODE) {
+    mitts.emit('updatePlanList')
     usePlan.setPlan(planData)
     ElMessage.success('保存成功')
   } else {

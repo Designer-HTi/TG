@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="overflow-hidden">
     <div class="head">
       <div class="left"></div>
       <div class="title">看板{{ count }}</div>
@@ -46,23 +46,18 @@
     </div>
   </section>
   <el-drawer ref="drawerRef" v-model="showDrawer" title="看板过滤" :with-header="false" size="300">
-    <!-- <el-tabs v-model="activeName" type="card" class="grow flex flex-col">
-      <el-tab-pane label="群过滤" name="group" class="h-full overflow-hidden"> -->
-    <div class="filterTitle">群过滤</div>
+    <!-- <div class="filterTitle">群过滤</div>
     <el-checkbox-group v-model="selectGroupList" class="listbox">
       <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
         {{ item.groupNickname }}
       </el-checkbox>
+    </el-checkbox-group> -->
+    <div class="filterTitle">关键词过滤</div>
+    <el-checkbox-group v-model="selectKeywordsList" class="listbox">
+      <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
     </el-checkbox-group>
-    <!-- </el-tab-pane> -->
-    <!-- <el-tab-pane label="关键词过滤" name="keyword">
-        <el-checkbox-group v-model="selectKeywordsList" class="listbox">
-          <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
-        </el-checkbox-group>
-      </el-tab-pane> -->
-    <!-- </el-tabs> -->
     <div class="footer">
-      <el-button class="font_family icon-filter" @click="emits('save', selectGroupList, count)"
+      <el-button class="font_family icon-filter" @click="emits('save', selectKeywordsList, count)"
         >保存</el-button
       >
     </div>
@@ -84,7 +79,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  save: [number[], number]
+  save: [string[], number]
 }>()
 
 onMounted(() => {
@@ -92,36 +87,28 @@ onMounted(() => {
   if (
     v.filters &&
     v.filters[props.count - 1] &&
-    v.filters[props.count - 1].groupList &&
-    v.filters[props.count - 1].groupList.length > 0
+    v.filters[props.count - 1].keyWordsList &&
+    v.filters[props.count - 1].keyWordsList.length > 0
   ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
+    // selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    selectKeywordsList.value = v.filters![props.count - 1].keyWordsList.map((v) => v.id) || []
   }
 })
 
-// watch(usePlan.$state, (v) => {
-//   if (
-//     v.filters &&
-//     v.filters[props.count - 1] &&
-//     v.filters[props.count - 1].groupList &&
-//     v.filters[props.count - 1].groupList.length > 0
-//   ) {
-//     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-//     selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
-//   }
-// })
-
-const selectGroupList = ref<number[]>([])
-// const selectKeywordsList = ref<string[]>([])
+// const selectGroupList = ref<number[]>([])
+const selectKeywordsList = ref<string[]>([])
 
 const monitoringData = computed(() => {
-  return useMonitoringData().$state.monitoringData.filter((v) =>
-    selectGroupList.value.includes(v.groupId)
+  return useMonitoringData().$state.monitoringData.filter(
+    (v) =>
+      // selectGroupList.value.includes(v.groupId)
+      v.keyWords.filter((item) => selectKeywordsList.value.indexOf(item) > -1).length > 0
   )
 })
-const groupList = computed(() => useMonitoringData().$state.groupList || [])
-// const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
+// const groupList = computed(() => useMonitoringData().$state.groupList || [])
+const keywordsList = computed(() => useMonitoringData().$state.keywordsList || [])
 
 // const activeName = ref('group')
 
@@ -180,6 +167,7 @@ section {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
     padding: 0 24px;
     gap: 12px;

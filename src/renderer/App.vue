@@ -32,21 +32,23 @@ onBeforeMount(async () => {
     console.log('disconnected')
   })
 
-  socket.on('message', (...args: MonitoringData[]) => {
+  socket.on('message', async (...args: MonitoringData[]) => {
     const data = args[0]
     data.keyWords.forEach((v) => {
       data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
     })
     monitoringData.pushMonitoringData(data)
-    // 消息通知
-    const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
-    // 触发播放
-    warningAudioDom?.play()
-    ElNotification({
-      title: data.groupName,
-      dangerouslyUseHTMLString: true,
-      message: h(Tip, { data })
-    })
+    if (monitoringData.$state.ringtones) {
+      const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
+      // 触发播放
+      warningAudioDom?.play()
+      // 消息通知
+      ElNotification({
+        title: data.groupName,
+        dangerouslyUseHTMLString: true,
+        message: h(Tip, { data })
+      })
+    }
   })
 
   getAllGroupKeyword()

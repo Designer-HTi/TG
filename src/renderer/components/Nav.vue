@@ -84,6 +84,7 @@ const getPlan = async () => {
     const res = await queryAllPlan()
     if (res.code === 0) {
       planList.value = res.data
+      // planList.value.length > 0 && usePlan.setPlan(planList.value[0])
     } else {
       ElMessage.warning(res.message)
     }

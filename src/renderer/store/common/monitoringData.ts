@@ -17,7 +17,8 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
         }
       ] as GroupRes[],
       keywordsList: [] as string[],
-      maxMsg: 100
+      maxMsg: 100,
+      ringtones: true
     }
   },
   getters: {},
@@ -36,6 +37,9 @@ const useMonitoringData = defineStore(NAMES.MONITORING_DATA, {
     },
     setMaxMsg(n: number) {
       this.$state.maxMsg = n
+    },
+    setRingtones(b: boolean) {
+      this.$state.ringtones = b
     }
   }
 })
