@@ -11,6 +11,7 @@ declare global {
       url: string
       wsUrl: string
       maxMsg: number
+      chatUrl: string
     }>
   }
 }

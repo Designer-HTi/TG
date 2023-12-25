@@ -5,6 +5,7 @@ interface AppSettings {
   url: string
   wsUrl: string
   maxMsg: number
+  chatUrl: string
   // 添加其他需要存储的属性
 }
 
@@ -16,7 +17,8 @@ class ElectronStoreWrapper {
     const defaults: AppSettings = {
       url: 'http://127.0.0.1:10002',
       wsUrl: 'http://127.0.0.1:10002/message',
-      maxMsg: 200
+      maxMsg: 200,
+      chatUrl: 'https://t.me/TGAiYQbot'
       // 添加其他默认设置
     }
 

@@ -6,7 +6,7 @@
     </el-steps>
 
     <div v-if="active === 1" class="info flex justify-between">
-      <div>https://t.me/TGAiYQbot</div>
+      <div>{{ config.$state.chatUrl }}</div>
       <el-button link class="icon font_family icon-add"></el-button>
     </div>
 
@@ -49,7 +49,9 @@
 import { createUser } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
 import { SUCCESS_CODE } from '@/constants'
+import useConfig from '@/store/common/config'
 import { ElMessage } from 'element-plus'
+const config = useConfig()
 
 const emit = defineEmits<{
   close: [string]

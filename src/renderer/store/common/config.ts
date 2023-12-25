@@ -7,7 +7,8 @@ const useConfig = defineStore(NAMES.CONFIG, {
     return {
       url: '',
       wsUrl: '',
-      maxMsg: 0
+      maxMsg: 0,
+      chatUrl: ''
     } as ConfigData
   },
   getters: {},

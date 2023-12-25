@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Layout from '@/views/Layout/index.vue'
 import DialogProvide from '@/components/dialog/index.vue'
-import Tip from '@/components/Tip.vue'
+// import Tip from '@/components/Tip.vue'
 import { getAllGroupKeyword } from './utils'
 import useMonitoringData from '@/store/common/monitoringData'
 // import Socket from './utils/websocket'
@@ -34,26 +34,27 @@ onBeforeMount(async () => {
 
   socket.on('message', async (...args: MonitoringData[]) => {
     const data = args[0]
+    if (monitoringData.$state.ringtones) {
+      // const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
+      // // 触发播放
+      // warningAudioDom?.play()
+      // // 消息通知
+      // ElNotification({
+      //   title: data.groupName,
+      //   dangerouslyUseHTMLString: true,
+      //   message: h(Tip, { data })
+      // })
+      new Notification(data.groupName, { body: data.message, renotify: true, tag: '1' })
+    }
     data.keyWords.forEach((v) => {
       data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
     })
     monitoringData.pushMonitoringData(data)
-    if (monitoringData.$state.ringtones) {
-      const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
-      // 触发播放
-      warningAudioDom?.play()
-      // 消息通知
-      ElNotification({
-        title: data.groupName,
-        dangerouslyUseHTMLString: true,
-        message: h(Tip, { data })
-      })
-    }
   })
 
   getAllGroupKeyword()
 
-  time.value = new Date().getTime() > 1706630400000
+  time.value = new Date().getTime() > new Date('2024-1-20').getTime()
 })
 </script>
 
