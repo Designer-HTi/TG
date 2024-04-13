@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Layout from '@/views/Layout/index.vue'
-import DialogProvide from '@/components/dialog/index.vue'
+// import Layout from '@/views/Layout/index.vue'
+// import DialogProvide from '@/components/dialog/index.vue'
 // import Tip from '@/components/Tip.vue'
 import { getAllGroupKeyword } from './utils'
 import useMonitoringData from '@/store/common/monitoringData'
@@ -33,6 +33,8 @@ onBeforeMount(async () => {
   })
 
   socket.on('message', async (...args: MonitoringData[]) => {
+    console.log(args)
+
     const data = args[0]
     if (monitoringData.$state.ringtones) {
       // const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
@@ -54,16 +56,43 @@ onBeforeMount(async () => {
 
   getAllGroupKeyword()
 
-  time.value = new Date().getTime() > new Date('2024-1-20').getTime()
+  time.value = new Date().getTime() > new Date('2025-2-10').getTime()
 })
+
+const srcUrl = ref('')
 </script>
 
 <template>
-  <DialogProvide>
+  <!-- <DialogProvide>
     <div v-if="time" class="flag">试用已到期</div>
     <Layout v-else />
   </DialogProvide>
-  <audio id="tipAudio" src="./assets/mp3/bo.mp3" controls hidden="true"></audio>
+  <audio id="tipAudio" src="./assets/mp3/bo.mp3" controls hidden="true"></audio> -->
+
+  <div class="w-100% h-100% flex gap-20px">
+    <div class="w-200px bg-pink">
+      <p class="h-40px line-heignt-40px text-center" @click="srcUrl = 'https://www.baidu.com'">1</p>
+      <p
+        class="h-40px line-heignt-40px text-center"
+        @click="
+          srcUrl =
+            'https://web.telegram.org/a/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTGcsdome&post=30'
+        "
+      >
+        2
+      </p>
+      <p
+        class="h-40px line-heignt-40px text-center"
+        @click="
+          srcUrl =
+            'https://web.telegram.org/a/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTGcsdome&post=31'
+        "
+      >
+        3
+      </p>
+    </div>
+    <webview class="w-full h-100%" :src="srcUrl"></webview>
+  </div>
 </template>
 
 <style lang="less">
