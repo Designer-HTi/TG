@@ -8,6 +8,7 @@ import useMonitoringData from '@/store/common/monitoringData'
 import { MonitoringData } from './store/types/interface'
 // import { v4 as uuidv4 } from 'uuid'
 import useConfig from './store/common/config'
+import useThemeColors from './store/common/useThemeColors'
 import { io } from 'socket.io-client'
 
 const time = ref(false)
@@ -60,6 +61,14 @@ onBeforeMount(async () => {
 })
 
 const srcUrl = ref('')
+
+const themeColors = useThemeColors()
+const handle = () => {
+  const root = document.querySelector(':root') as any
+  Object.keys(themeColors.$state.default).forEach((v) => {
+    root?.style.setProperty(v, themeColors.$state.default[v])
+  })
+}
 </script>
 
 <template>
@@ -70,7 +79,7 @@ const srcUrl = ref('')
   <audio id="tipAudio" src="./assets/mp3/bo.mp3" controls hidden="true"></audio> -->
 
   <div class="w-100% h-100% flex gap-20px">
-    <div class="w-200px bg-pink">
+    <div class="w-200px bgColor">
       <p class="h-40px line-heignt-40px text-center" @click="srcUrl = 'https://www.baidu.com'">1</p>
       <p
         class="h-40px line-heignt-40px text-center"
@@ -90,16 +99,21 @@ const srcUrl = ref('')
       >
         3
       </p>
+      <p class="h-40px line-heignt-40px text-center" @click="handle">修改</p>
     </div>
     <webview class="w-full h-100%" :src="srcUrl"></webview>
   </div>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
 .flag {
   width: 100vw;
   height: 100vh;
   text-align: center;
   line-height: 100vh;
+}
+
+.bgColor {
+  background-color: var(--el-bg);
 }
 </style>
