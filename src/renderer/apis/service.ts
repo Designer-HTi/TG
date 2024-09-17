@@ -1,8 +1,10 @@
 import axios, { InternalAxiosRequestConfig } from 'axios'
 import { ElMessage } from 'element-plus'
 
+const data = await window.getConfig()
 const service = axios.create({
-  baseURL: 'http://172.208.105.151',
+  // baseURL: `http://127.0.0.1:6060/aps`,
+  baseURL: data.url,
   timeout: 15000
 })
 
@@ -22,7 +24,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     const data = response.data
-    if (data.code !== 'success') {
+    if (response.status !== 200) {
       Promise.reject(ElMessage.error(data.msg))
     } else {
       return data

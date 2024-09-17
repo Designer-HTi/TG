@@ -8,7 +8,7 @@ export const setWindowSize = (event, type: string) => {
       win?.minimize()
       break
     case 'max':
-      win?.maximize()
+      win?.isMaximized() ? win?.unmaximize() : win?.maximize()
       break
     case 'close':
       win?.close()

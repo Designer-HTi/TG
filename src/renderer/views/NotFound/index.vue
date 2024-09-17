@@ -15,7 +15,7 @@
   align-items: center;
 }
 img {
-  width: 800px;
+  width: 100%;
   height: 600px;
 }
 </style>

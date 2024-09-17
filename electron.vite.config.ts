@@ -63,20 +63,20 @@ export default defineConfig({
           javascriptEnabled: true
         }
       }
+    },
+    server: {
+      host: '0.0.0.0',
+      port: 6060,
+      open: false,
+      proxy: {
+        '/aps': {
+          autoRewrite: true,
+          target: 'http://43.134.107.71:10002',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(/^\/aps/, '')
+        }
+      }
     }
-    // server: {
-    //   host: '0.0.0.0',
-    //   port: 6060,
-    //   open: false,
-    //   proxy: {
-    //     '/api/': {
-    //       autoRewrite: true,
-    //       target: 'http://172.208.105.151',
-    //       changeOrigin: true,
-    //       ws: true,
-    //       rewrite: (path) => path.replace(/^\/api/, '') // 不可以省略rewrite
-    //     }
-    //   }
-    // }
   }
 })

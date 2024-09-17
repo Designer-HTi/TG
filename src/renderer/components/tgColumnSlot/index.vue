@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col justify-between w-full h-full content">
+  <div class="flex flex-col justify-between w-full content">
     <div class="head text-center">{{ title }}</div>
-    <div class="w-full grow !px-16px !py-16px">
+    <div class="w-full flex-1 !p-16px overflow-hidden">
       <slot></slot>
     </div>
     <div class="flex justify-center items-center !px-16px footer">
@@ -35,6 +35,7 @@ const emit = defineEmits<{
 
 <style scoped lang="less">
 .content {
+  height: calc(100vh - 64px);
   border-right: 1px solid @border-hr;
   .head {
     border-bottom: 1px solid @border-hr;

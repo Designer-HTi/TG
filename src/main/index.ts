@@ -4,20 +4,21 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { setWindowSize } from './eventCollection'
 import { SET_WINDOW_SIZE } from './constants'
+import { electronStore } from './store'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1440,
+    height: 810,
     show: false,
-    fullscreen: true,
     autoHideMenuBar: true,
     frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webviewTag: true
     }
   })
 
@@ -30,7 +31,7 @@ function createWindow(): void {
     return { action: 'deny' }
   })
 
-  mainWindow.webContents.openDevTools({ mode: 'right' })
+  // mainWindow.webContents.openDevTools({ mode: 'right' })
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
@@ -56,6 +57,11 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on(SET_WINDOW_SIZE, setWindowSize)
+
+  // 监听设置的改变并发送消息给渲染进程
+  ipcMain.on('getConfig', (event) => {
+    event.returnValue = electronStore.getAllSettings()
+  })
 
   createWindow()
 

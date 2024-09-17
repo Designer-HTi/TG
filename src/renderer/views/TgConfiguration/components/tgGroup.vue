@@ -7,14 +7,19 @@
       <Checkbox
         v-model:modelValue="checkAll"
         :indeterminate="isIndeterminate"
-        label="全部"
         class="w-full"
         @change="handleCheckAllChange"
-      />
+      >
+        全部
+      </Checkbox>
       <el-checkbox-group v-model="selectList" class="w-full" @change="changeGroup">
-        <Checkbox v-for="item in groupList" :key="item.chatId" class="w-full" :label="item.id">{{
-          item.channelName
-        }}</Checkbox>
+        <Checkbox
+          v-for="item in groupList"
+          :key="item.groupId"
+          class="w-full"
+          :label="item.groupId"
+          >{{ item.groupNickname }}</Checkbox
+        >
       </el-checkbox-group>
     </div>
   </div>
@@ -25,11 +30,12 @@ import { queryAllGroup } from '@/apis'
 import { GroupRes } from '@/apis/types'
 import Checkbox from '@/components/checkbox/index.vue'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 import { CheckboxValueType } from 'element-plus'
 
 const props = defineProps<{
   selectList: string[]
-  chatId: string
+  chatId: number
 }>()
 
 const emit = defineEmits<{
@@ -55,7 +61,7 @@ const isIndeterminate = ref(false)
 const groupList = ref<GroupRes[]>([])
 
 const handleCheckAllChange = (v: boolean) => {
-  selectList.value = v ? groupList.value.map((v) => v.id) : []
+  selectList.value = v ? groupList.value.map((v) => v.groupId) : []
   isIndeterminate.value = false
 }
 
@@ -75,8 +81,10 @@ const changeGroup = (v: CheckboxValueType[]) => {
 const groupLoading = ref(false)
 const getAllGroup = async () => {
   groupLoading.value = true
-  const res = await queryAllGroup(props.chatId)
-  if (res.code === 'success') {
+  const res = await queryAllGroup({
+    chatIds: [props.chatId]
+  })
+  if (res.code === SUCCESS_CODE) {
     groupList.value = res.data
     groupLoading.value = false
   }

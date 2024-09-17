@@ -11,7 +11,7 @@
         :class="{ active: chatId === item.chatId }"
         @click="chatId = item.chatId"
       >
-        {{ item.chatId }}
+        {{ item.nickname }}
       </div>
     </div>
   </div>
@@ -21,9 +21,10 @@
 import { queryAllUser } from '@/apis'
 import { UserRes } from '@/apis/types'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 
 const props = defineProps<{
-  chatId: string
+  chatId: number
 }>()
 
 const emit = defineEmits<{
@@ -43,7 +44,7 @@ const userLoading = ref(false)
 const getAllUser = async () => {
   userLoading.value = true
   const res = await queryAllUser()
-  if (res.code === 'success') {
+  if (res.code === SUCCESS_CODE) {
     userList.value = res.data.length > 0 ? res.data : []
     userLoading.value = false
   }

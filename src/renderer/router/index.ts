@@ -1,5 +1,5 @@
 // 导入依赖
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // 配置routes
 const routes: Array<RouteRecordRaw> = [
@@ -47,9 +47,9 @@ const routes: Array<RouteRecordRaw> = [
 
 // 配置router
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
-  scrollBehavior(to, from) {
+  scrollBehavior() {
     return {
       left: 0,
       top: 0

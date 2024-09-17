@@ -7,6 +7,7 @@
       :model="formLabelAlign"
       :rules="rules"
       style="max-width: 460px"
+      onsubmit="return false"
     >
       <el-form-item label="方案名称" prop="planName">
         <el-input v-model="formLabelAlign.planName" />

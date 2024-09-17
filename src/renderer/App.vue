@@ -1,44 +1,119 @@
 <script setup lang="ts">
-import Layout from '@/views/Layout/index.vue'
-import DialogProvide from '@/components/dialog/index.vue'
+// import Layout from '@/views/Layout/index.vue'
+// import DialogProvide from '@/components/dialog/index.vue'
+// import Tip from '@/components/Tip.vue'
 import { getAllGroupKeyword } from './utils'
 import useMonitoringData from '@/store/common/monitoringData'
 // import Socket from './utils/websocket'
+import { MonitoringData } from './store/types/interface'
+// import { v4 as uuidv4 } from 'uuid'
+import useConfig from './store/common/config'
+import useThemeColors from './store/common/useThemeColors'
+import { io } from 'socket.io-client'
 
-// const wbSocket = new Socket<null, string>({ url: 'ws://172.208.105.151:3399/websocket' })
-// wbSocket.onmessage((data: string) => {
-//   const str = JSON.stringify(data)
-//   console.log('server data:', str)
-// })
+const time = ref(false)
 
-onMounted(() => {
+const config = useConfig()
+const monitoringData = useMonitoringData()
+onBeforeMount(async () => {
+  const data = await window.getConfig()
+  config.setUrl(data)
+  monitoringData.setMaxMsg(data.maxMsg)
+
+  const socket = io(data.wsUrl)
+  // const socket = io('http://43.134.107.71:10002/message')
+
+  socket.connect()
+
+  socket.on('connect', () => {
+    console.log('connected')
+  })
+
+  socket.on('disconnect', () => {
+    console.log('disconnected')
+  })
+
+  socket.on('message', async (...args: MonitoringData[]) => {
+    console.log(args)
+
+    const data = args[0]
+    if (monitoringData.$state.ringtones) {
+      // const warningAudioDom = document.getElementById('tipAudio') as HTMLAudioElement
+      // // 触发播放
+      // warningAudioDom?.play()
+      // // 消息通知
+      // ElNotification({
+      //   title: data.groupName,
+      //   dangerouslyUseHTMLString: true,
+      //   message: h(Tip, { data })
+      // })
+      new Notification(data.groupName, { body: data.message, renotify: true, tag: '1' })
+    }
+    data.keyWords.forEach((v) => {
+      data.message = data.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
+    })
+    monitoringData.pushMonitoringData(data)
+  })
+
   getAllGroupKeyword()
 
-  let i = 0
-  setInterval(() => {
-    const obj = {
-      id: i.toString(),
-      chatId: `chatId${i}`,
-      groupId: `groupId${i}`,
-      groupName: `groupName${i}`,
-      createTime: new Date().getTime().toString(),
-      keyWords: ['111', '222'],
-      userName: `userName${i}`,
-      userId: `userId${i}`,
-      message: `y做单看我 签名 in 海外同胞交流群 111招人进微信群发广告，发一个222群给你30块${i++}`
-    }
-    obj.keyWords.forEach((v) => {
-      obj.message = obj.message.replaceAll(v, `<b style="color: #eb5757">${v}</b>`)
-    })
-    useMonitoringData().pushMonitoringData(obj)
-  }, 2000)
+  time.value = new Date().getTime() > new Date('2025-2-10').getTime()
 })
+
+const srcUrl = ref('')
+
+const themeColors = useThemeColors()
+const handle = () => {
+  const root = document.querySelector(':root') as any
+  Object.keys(themeColors.$state.default).forEach((v) => {
+    root?.style.setProperty(v, themeColors.$state.default[v])
+  })
+}
 </script>
 
 <template>
-  <DialogProvide>
-    <Layout />
+  <!-- <DialogProvide>
+    <div v-if="time" class="flag">试用已到期</div>
+    <Layout v-else />
   </DialogProvide>
+  <audio id="tipAudio" src="./assets/mp3/bo.mp3" controls hidden="true"></audio> -->
+
+  <div class="w-100% h-100% flex gap-20px">
+    <div class="w-200px bgColor">
+      <p class="h-40px line-heignt-40px text-center" @click="srcUrl = 'https://www.baidu.com'">1</p>
+      <p
+        class="h-40px line-heignt-40px text-center"
+        @click="
+          srcUrl =
+            'https://web.telegram.org/a/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTGcsdome&post=30'
+        "
+      >
+        2
+      </p>
+      <p
+        class="h-40px line-heignt-40px text-center"
+        @click="
+          srcUrl =
+            'https://web.telegram.org/a/#?tgaddr=tg%3A%2F%2Fresolve%3Fdomain%3DTGcsdome&post=31'
+        "
+      >
+        3
+      </p>
+      <p class="h-40px line-heignt-40px text-center" @click="handle">修改</p>
+    </div>
+    <webview class="w-full h-100%" :src="srcUrl"></webview>
+  </div>
 </template>
 
-<style lang="less"></style>
+<style lang="less" scoped>
+.flag {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  line-height: 100vh;
+}
+
+.bgColor {
+  background-color: var(--el-bg);
+}
+</style>

@@ -2,15 +2,29 @@
   <div class="flex-col items-center gap-8 !px-20">
     <p class="link">请在下方输入框输入你需要监测的群链接</p>
 
-    <el-input ref="inputRef" v-model="chatUrl" class="w-280px" maxlength="100">
+    <el-input
+      ref="inputRef"
+      v-model="chatUrl.nickname"
+      class="w-280px"
+      maxlength="100"
+      placeholder="请输入群名"
+    ></el-input>
+    <el-input
+      ref="inputRef"
+      v-model="chatUrl.url"
+      class="w-280px"
+      maxlength="100"
+      placeholder="请输入群地址"
+    >
       <template #append>
         <el-button
           link
           class="icon font_family icon-add"
           @click="
             () => {
-              chatUrls.push(chatUrl)
-              chatUrl = ''
+              chatUrls.push(JSON.parse(JSON.stringify(chatUrl)))
+              chatUrl.url = ''
+              chatUrl.nickname = ''
               inputRef?.focus()
             }
           "
@@ -19,7 +33,7 @@
     </el-input>
 
     <div class="w-280px urlList">
-      <p v-for="v in chatUrls" :key="v">{{ v }}</p>
+      <p v-for="v in chatUrls" :key="v.url">{{ v.nickname + ': ' + v.url }}</p>
     </div>
   </div>
 
@@ -33,6 +47,7 @@
 <script setup lang="ts">
 import { createChannel } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
 import { getAllGroupKeyword } from '@/utils'
 
 const props = defineProps<{
@@ -47,8 +62,11 @@ onMounted(() => {
   inputRef.value?.focus()
 })
 
-const chatUrl = ref('')
-const chatUrls = ref<string[]>([])
+const chatUrl = reactive({
+  url: '',
+  nickname: ''
+})
+const chatUrls = ref<(typeof chatUrl)[]>([])
 const inputRef = ref<HTMLElement>()
 
 const handleBtn = async () => {
@@ -58,13 +76,15 @@ const handleBtn = async () => {
   try {
     const res = await createChannel({
       chatId: props.chatId,
-      urls: chatUrls.value
+      groupUrls: chatUrls.value
     })
 
-    if (res.code === 'success') {
+    if (res.code === SUCCESS_CODE) {
       ElMessage.success('新增成功')
       emit('close', 'update')
       getAllGroupKeyword()
+    } else {
+      ElMessage.warning(res.message)
     }
   } catch (error) {
     console.log(error)

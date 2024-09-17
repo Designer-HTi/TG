@@ -1,15 +1,32 @@
 export interface ApiResponse<T> {
-  code: 'success' | 'error'
+  code: 0 | -1
   data: T
-  msg: string
+  message: string
 }
 
 export interface PlansRes {
-  create_time: string
-  filters: string
-  id: string
+  create_time?: string
+  filters: PlanFilters[]
+  id: number
   planName: string
   planType: string
+}
+export interface PlanFilters {
+  groupList: GroupList[]
+  keyWordsList: KeyWordsList[]
+}
+export interface GroupList {
+  accountId: string
+  id: number
+}
+export interface KeyWordsList {
+  groupId: string
+  id: string
+}
+
+export interface UpdatePlanReq {
+  plan_id: string
+  filters: PlanFilters[]
 }
 
 export interface CreatePlanReq {
@@ -19,51 +36,55 @@ export interface CreatePlanReq {
 
 export interface CreateChannelReq {
   chatId: string
-  urls: string[]
+  groupUrls: {
+    url: string
+    nickname: string
+  }[]
 }
 
 export interface UserRes {
-  chatId: string
+  chatId: number
+  id: number
+  createTime: string
+  nickname: string
 }
 
 export interface GroupRes {
-  id: string
   chatId: string
-  channelName: string
-  createTime: string
+  groupId: string
+  groupName: string
+  groupNickname: string
 }
 
 export interface ChannelReq {
-  chatId: string
-  channelIds: string[]
+  chatId: number
+  groupIds: string[]
 }
 
 export interface CreateUserReq {
   chatId: string
+  nickname: string
 }
 
 export interface KeywordsReq {
-  chatId: string
   groupIds: string[]
 }
 
 export interface AddKeywordsReq {
-  chatId: string
-  keyword_data: {
-    channelId: string
-    channelName: string
-    keywords: string[]
-  }[]
+  groupIds: string[]
+  keywords: string[]
 }
 
 export interface KeywordsRes {
   keywords: string[]
-  channelId: string
-  channelName: string
-  create_time: string
+  groupId: number
 }
 
-export interface UpdatePlanReq {
-  plan_id: string
-  filters: any
+export interface GroupListReq {
+  chatIds: number[]
+}
+
+export interface DelKeywordsReq {
+  groupId: number
+  keywords: string[]
 }

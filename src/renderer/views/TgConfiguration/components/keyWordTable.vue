@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-col h-full gap-10px">
+  <div class="flex flex-col h-full gap-10px overflow-hidden">
     <div class="flex justify-between head">
       <div class="flex items-center gap-2">
         <span>关键词</span>
@@ -8,13 +8,8 @@
         <span>操作</span>
       </div>
     </div>
-    <div class="grow">
-      <el-table
-        ref="tableRef"
-        v-loading="tableLoading"
-        :data="tableData"
-        style="width: 100%; height: 100%"
-      >
+    <div class="grow overflow-hidden">
+      <el-table ref="tableRef" v-loading="tableLoading" :data="tableData" height="100%">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="date" label="全部" min-width="180">
           <template #default="scope">
@@ -30,7 +25,6 @@
             <el-button link type="danger" size="small" @click="delKeyword(scope.row)"
               >删除</el-button
             >
-            <!-- <el-button link type="primary" size="small">新增</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -39,12 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import { queryKeywords, updateKeywords } from '@/apis'
+import { deleteKeywords, queryKeywords } from '@/apis'
 import { KeywordsRes } from '@/apis/types'
-import { getAllGroupKeyword } from '@/utils'
+import { SUCCESS_CODE } from '@/constants'
+// import { getAllGroupKeyword } from '@/utils'
 import { ElTable } from 'element-plus'
 const props = defineProps<{
-  chatId: string
+  chatId: number
   selectGroup: string[]
 }>()
 
@@ -63,12 +58,15 @@ watch(
 
 const tableLoading = ref(false)
 const getKeywords = async () => {
+  if (props.selectGroup.length === 0) {
+    tableData.value = []
+    return
+  }
   tableLoading.value = true
   const res = await queryKeywords({
-    chatId: props.chatId,
     groupIds: props.selectGroup
   })
-  if (res.code === 'success') {
+  if (res.code === SUCCESS_CODE) {
     tableData.value = res.data
     tableLoading.value = false
   }
@@ -80,13 +78,17 @@ const delKeyword = async (row: KeywordsRes) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    const res = await updateKeywords({
-      chatId: props.chatId,
-      keyword_data: tableData.value.filter((v) => v !== row)
-    })
-    if (res.code === 'success') {
+    const res = await deleteKeywords([
+      {
+        groupId: row.groupId,
+        keywords: row.keywords
+      }
+    ])
+    if (res.code === SUCCESS_CODE) {
       getKeywords()
       ElMessage.success('删除成功')
+    } else {
+      ElMessage.warning(res.message)
     }
   })
 }
@@ -103,15 +105,18 @@ const delKeywords = async () => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(async () => {
-    const row = tableData.value.filter((v) => !selectionRows.includes(v))
-    const res = await updateKeywords({
-      chatId: props.chatId,
-      keyword_data: row
+    const params = selectionRows.map((v) => {
+      return {
+        groupId: v.groupId,
+        keywords: v.keywords
+      }
     })
-    if (res.code === 'success') {
+    const res = await deleteKeywords(params)
+    if (res.code === SUCCESS_CODE) {
       getKeywords()
       ElMessage.success('删除成功')
-      getAllGroupKeyword()
+    } else {
+      ElMessage.warning(res.message)
     }
   })
 }

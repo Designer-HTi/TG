@@ -6,11 +6,24 @@
     </el-steps>
 
     <div v-if="active === 1" class="info flex justify-between">
-      <div>https://t.me/TGAiYQbot</div>
+      <div>{{ config.$state.chatUrl }}</div>
       <el-button link class="icon font_family icon-add"></el-button>
     </div>
 
-    <el-input v-else v-model="chatId" class="w-280px"></el-input>
+    <el-input
+      v-if="active === 2"
+      v-model="chatId"
+      class="w-280px"
+      placeholder="请输入chatId"
+      maxlength="200"
+    ></el-input>
+    <el-input
+      v-if="active === 2"
+      v-model="nickname"
+      class="w-280px"
+      placeholder="请输入TG账户名"
+      maxlength="100"
+    ></el-input>
 
     <a v-if="active === 1" class="link" url="https://www.bilibili.com/"
       >点我打开链接添加TG智能监测机器人</a
@@ -19,7 +32,12 @@
   </div>
   <div class="flex justify-end !py-10px !mt-10">
     <TgButton class="w-25" @handle-btn="next">
-      {{ active === 1 ? '下一步' : '上一步' }}
+      <div v-if="active === 1" class="flex items-center">
+        下一步<el-icon><Bottom /></el-icon>
+      </div>
+      <div v-else class="flex items-center">
+        上一步<el-icon><Top /></el-icon>
+      </div>
     </TgButton>
     <TgButton v-if="active === 2" class="w-25" @handle-btn="handleBtn">
       <el-icon><Check /></el-icon>完成
@@ -30,7 +48,10 @@
 <script setup lang="ts">
 import { createUser } from '@/apis'
 import TgButton from '@/components/tgButton/index.vue'
+import { SUCCESS_CODE } from '@/constants'
+import useConfig from '@/store/common/config'
 import { ElMessage } from 'element-plus'
+const config = useConfig()
 
 const emit = defineEmits<{
   close: [string]
@@ -39,6 +60,7 @@ const emit = defineEmits<{
 const active = ref(1)
 
 const chatId = ref('')
+const nickname = ref('')
 
 const next = () => {
   active.value = active.value === 1 ? 2 : 1
@@ -46,11 +68,14 @@ const next = () => {
 const handleBtn = async () => {
   try {
     const res = await createUser({
-      chatId: chatId.value
+      chatId: chatId.value,
+      nickname: nickname.value
     })
-    ElMessage.success('新增成功')
-    if (res.code === 'success') {
+    if (res.code === SUCCESS_CODE) {
+      ElMessage.success('新增成功')
       emit('close', 'update')
+    } else {
+      ElMessage.warning(res.message)
     }
   } catch (error) {
     console.log(error)

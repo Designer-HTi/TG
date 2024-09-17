@@ -10,6 +10,7 @@
   --el-border-color-lighter: @border-hr !important;
   --el-fill-color-light: @table-hover !important;
   --el-mask-color: rgba(0, 0, 0, 0.1) !important;
+  --el-bg: #000;
 }
 
 .el-dialog {
@@ -78,14 +79,16 @@
 
 .el-drawer {
   --el-drawer-bg-color: @bg-color-1 !important;
-  height: calc(100% - 64px) !important;
+  height: calc(100vh - 64px) !important;
   border-left: 1px solid @border-hr;
   margin-top: 64px;
 
   .el-drawer__body {
     padding: 10px 16px 0px 16px;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .el-tabs {
@@ -137,4 +140,8 @@
   z-index: 200;
   border-color: @primary;
   background-color: rgba(78, 167, 252, 0.1);
+}
+
+.el-notification {
+  background: @bg-color-2;
 }

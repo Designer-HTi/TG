@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="overflow-hidden">
     <div class="head">
       <div class="left"></div>
       <div class="title">看板{{ count }}</div>
@@ -8,71 +8,58 @@
       </div>
     </div>
     <div class="list">
-      <transition-group name="el-zoom-in-center">
-        <div
-          v-for="item in monitoringData.filter((v) => Number(v.id) % count === 0)"
-          :key="item.id"
-          class="descriptions"
-        >
-          <div class="descriptions__cell_group">
-            <div class="descriptions__cell">
-              <div class="descriptions_label">命中词</div>
-              <div class="descriptions_content">{{ item.keyWords.join('，') }}</div>
-            </div>
-            <div class="time">{{ item.createTime }}</div>
-          </div>
+      <!-- <transition-group name="el-zoom-in-center"> -->
+      <div v-for="item in monitoringData" :key="item.id" class="descriptions">
+        <div class="descriptions__cell_group">
           <div class="descriptions__cell">
-            <div class="descriptions_label">群名</div>
-            <div class="descriptions_content">{{ item.groupName }}</div>
+            <div class="descriptions_label">命中词</div>
+            <div class="descriptions_content">{{ item.keyWords.join('，') }}</div>
           </div>
-          <div class="descriptions__cell">
-            <div class="descriptions_label">发言人ID</div>
-            <div class="descriptions_content">{{ item.userId }}</div>
-          </div>
-          <hr />
-          <div class="descriptions__cell column">
-            <div class="descriptions_label">言论</div>
-            <div class="descriptions_content box" v-html="item.message"></div>
-          </div>
-          <div class="button">
-            <el-button
-              class="font_family icon-Frame"
-              @click="
-                handleCopy(
-                  `用户：${item.userName}；用户ID：${item.userId}；时间：${item.createTime}；群名：${item.groupName}；言论：${item.message}；`
-                )
-              "
-              >复制举证
-            </el-button>
-          </div>
+          <div class="time">{{ item.createTime }}</div>
         </div>
-      </transition-group>
+        <div class="descriptions__cell">
+          <div class="descriptions_label">群名</div>
+          <div class="descriptions_content">{{ item.groupName }}</div>
+        </div>
+        <div class="descriptions__cell">
+          <div class="descriptions_label">发言人</div>
+          <div class="descriptions_content">{{ item.userName }}</div>
+        </div>
+        <hr />
+        <div class="descriptions__cell column">
+          <div class="descriptions_label">言论</div>
+          <div class="descriptions_content box" v-html="item.message"></div>
+        </div>
+        <div class="button">
+          <el-button
+            class="font_family icon-Frame"
+            @click="
+              handleCopy(
+                `用户：${item.userName}；用户ID：${item.userId}；时间：${item.createTime}；群名：${item.groupName}；言论：${item.message}；`
+              )
+            "
+            >复制举证
+          </el-button>
+        </div>
+      </div>
+      <!-- </transition-group> -->
     </div>
   </section>
-  <el-drawer
-    ref="drawerRef"
-    v-model="showDrawer"
-    title="看板过滤"
-    :with-header="false"
-    size="300"
-    append-to-body
-  >
-    <el-tabs v-model="activeName" type="card" class="demo-tabs">
-      <el-tab-pane label="群过滤" name="group">
-        <el-checkbox-group v-model="selectGroupList" class="listbox">
-          <el-checkbox v-for="item in groupList" :key="item.id" :label="item.id" border>
-            {{ item.channelName }}
-          </el-checkbox>
-        </el-checkbox-group>
-      </el-tab-pane>
-      <!-- <el-tab-pane label="关键词过滤" name="keyword">
-        <el-checkbox-group v-model="selectKeywordsList" class="listbox">
-          <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
-        </el-checkbox-group>
-      </el-tab-pane> -->
-    </el-tabs>
+  <el-drawer ref="drawerRef" v-model="showDrawer" title="看板过滤" :with-header="false" size="300">
+    <!-- <div class="filterTitle">群过滤</div>
+    <el-checkbox-group v-model="selectGroupList" class="listbox">
+      <el-checkbox v-for="item in groupList" :key="item.groupId" :label="item.groupName" border>
+        {{ item.groupNickname }}
+      </el-checkbox>
+    </el-checkbox-group> -->
+    <div class="filterTitle">关键词过滤</div>
+    <el-checkbox-group v-model="selectKeywordsList" class="listbox">
+      <el-checkbox v-for="v in keywordsList" :key="v" :label="v" border />
+    </el-checkbox-group>
     <div class="footer">
-      <el-button class="font_family icon-filter" @click="onClose">保存</el-button>
+      <el-button class="font_family icon-filter" @click="emits('save', selectKeywordsList, count)"
+        >保存</el-button
+      >
     </div>
   </el-drawer>
 </template>
@@ -80,45 +67,62 @@
 <script setup lang="ts">
 import { ElDrawer } from 'element-plus'
 import useMonitoringData from '@/store/common/monitoringData'
-import { updatePlan } from '@/apis'
+// import { updatePlan } from '@/apis'
 import { handleCopy } from '@/utils'
+// import { SUCCESS_CODE } from '@/constants'
+import usePlanStore from '@/store/common/usePlan'
 
-defineProps<{
+const usePlan = usePlanStore()
+
+const props = defineProps<{
   count: number
 }>()
 
-const route = useRoute()
+const emits = defineEmits<{
+  save: [string[], number]
+}>()
+
 onMounted(() => {
-  console.log(route.query)
+  const v = usePlan.$state
+  if (
+    v.filters &&
+    v.filters[props.count - 1] &&
+    v.filters[props.count - 1].keyWordsList &&
+    v.filters[props.count - 1].keyWordsList.length > 0
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // selectGroupList.value = v.filters![props.count - 1].groupList.map((v) => v.id) || []
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    selectKeywordsList.value = v.filters![props.count - 1].keyWordsList.map((v) => v.id) || []
+  }
 })
 
-const monitoringData = computed(() => useMonitoringData().$state.monitoringData)
-const groupList = computed(() => useMonitoringData().$state.groupList)
-// const keywordsList = computed(() => useMonitoringData().$state.keywordsList)
-
-const activeName = ref('group')
-
-const selectGroupList = ref<string[]>([])
+// const selectGroupList = ref<number[]>([])
 const selectKeywordsList = ref<string[]>([])
+
+const monitoringData = computed(() => {
+  return useMonitoringData().$state.monitoringData.filter(
+    (v) =>
+      // selectGroupList.value.includes(v.groupId)
+      v.keyWords.filter((item) => selectKeywordsList.value.indexOf(item) > -1).length > 0
+  )
+})
+// const groupList = computed(() => useMonitoringData().$state.groupList || [])
+const keywordsList = computed(() => useMonitoringData().$state.keywordsList || [])
+
+// const activeName = ref('group')
 
 const showDrawer = ref(false)
 
 const drawerRef = ref<InstanceType<typeof ElDrawer>>()
-const onClose = async () => {
-  const res = await updatePlan({
-    plan_id: '1',
-    filters: [
-      {
-        group: selectGroupList.value,
-        keywords: selectKeywordsList.value
-      }
-    ]
-  })
-  if (res.code === 'success') {
-    ElMessage.success('保存成功')
-    // drawerRef.value?.close()
-  }
+
+const close = () => {
+  showDrawer.value = false
 }
+
+defineExpose({
+  close
+})
 </script>
 
 <style scoped lang="less">
@@ -163,6 +167,7 @@ section {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
     padding: 0 24px;
     gap: 12px;
@@ -230,7 +235,10 @@ section {
 .listbox {
   display: flex;
   flex-direction: column;
-  margin-top: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 100%;
+  overflow: auto;
 }
 .footer {
   display: flex;
@@ -246,5 +254,17 @@ section {
     height: 1px;
     border-bottom: 1px solid @border-hr;
   }
+}
+:deep(.el-tabs__content) {
+  flex: 1;
+  overflow: hidden;
+}
+.filterTitle {
+  padding: 5px 10px;
+  background-color: #303236;
+  border-radius: 4px;
+  border: 1px solid #3c3f44 !important;
+  color: @primary;
+  text-align: center;
 }
 </style>

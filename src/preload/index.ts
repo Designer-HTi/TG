@@ -15,6 +15,9 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electronApi', {
       setWindowSize: (type: string) => ipcRenderer.send(SET_WINDOW_SIZE, type)
     })
+    contextBridge.exposeInMainWorld('getConfig', async () => {
+      return await ipcRenderer.sendSync('getConfig')
+    })
   } catch (error) {
     // console.error(error)
   }
